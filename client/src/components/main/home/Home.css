@@ -1,0 +1,39 @@
+.cart-items {
+  overflow-y: scroll;
+}
+
+.cart-items::-webkit-scrollbar {
+  display: none;
+}
+
+.cart-items {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.design-page textarea,
+.design-page input {
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  outline: none;
+  padding: 5px;
+  color: #513d2b;
+  margin-bottom: 30px;
+}
+.design-page textarea {
+  width: 100%;
+}
+.design-page textarea:focus, .design-page input:focus {
+  border-color: #513d2b;
+  box-shadow: inset 0px 0px 2px 2px #513d2b2c;
+}

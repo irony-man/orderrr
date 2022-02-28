@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto',sans-serif;
+}
+::selection{
+  background: #513d2b57;
+}/*#F9F6F1*/
+body{
+  background: #F9F6F1;
+}
+
+.offline {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.offline-message{
+  color: #513D2B;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.game-splash button{
+  background-color: #513D2B;
+  font-family: 'Roboto',sans-serif;
+}
+.point-bar{
+  margin-top: 10px;
+  font-weight: 700;
+  color: #513D2B;
+}
+.loader{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

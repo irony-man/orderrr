@@ -1,0 +1,104 @@
+.login-container{
+  max-width: 440px;
+  min-width: 340px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.wrapper{
+  width: 100%;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.1);
+}
+.wrapper .login-title a{
+  text-decoration: none;
+  height: 90px;
+  background: #513D2B;
+  border-radius: 5px 5px 0 0;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper form{
+  padding: 30px 25px 25px 25px;
+}
+.wrapper form .input-row{
+  height: 45px;
+  margin-bottom: 15px;
+  position: relative;
+}
+.wrapper form .input-row input, .wrapper form .input-row select{
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding-left: 60px;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+.wrapper form .button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+form .input-row input:focus{
+  border-color: #513D2B;
+  box-shadow: inset 0px 0px 2px 2px #513d2b2c;
+}
+form .input-row input::placeholder{
+  color: #999;
+}
+.wrapper form .input-row i{
+  position: absolute;
+  width: 47px;
+  height: 100%;
+  color: #fff;
+  font-size: 18px;
+  background: #513D2B;
+  border: 1px solid #513D2B;
+  border-radius: 5px 0 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper form .pass{
+  margin: -8px 0 20px 0;
+}
+.wrapper form .pass a{
+  color: #513D2B;
+  font-size: 17px;
+  text-decoration: none;
+}
+.wrapper form .pass a:hover{
+  text-decoration: underline;
+}
+.wrapper form .button input{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  background: #513D2B;
+  border: 1px solid #513D2B;
+  padding: 0;
+  cursor: pointer;
+}
+form .button input:hover{
+  background: #2c1e12;
+}
+.wrapper form .signup-link{
+  text-align: center;
+  margin-top: 20px;
+  font-size: 17px;
+}
+.wrapper form .signup-link a{
+  color: #513D2B;
+  text-decoration: none;
+}
+form .signup-link a:hover{
+  text-decoration: underline;
+}

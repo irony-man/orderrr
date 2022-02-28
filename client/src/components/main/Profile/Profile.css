@@ -1,0 +1,124 @@
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50px;
+  margin: 20px 5vw;
+  background-color: rgb(255, 255, 255);
+}
+
+.navbar-profile a {
+  color: #513D2B;
+  text-decoration: none;
+  padding: 10px 10vw;
+}
+
+.profile-header {
+  background: rgb(255, 255, 255);
+  color: #513D2B;
+  padding: 30px 0;
+  border-bottom: #513D2B solid 2px;
+  margin: 0 5vw;
+}
+
+.profile-img {
+  margin-bottom: 30px;
+}
+
+.profile-img img {
+  border-radius: 50%;
+  width: 180px;
+  height: auto;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  background: rgb(255, 255, 255);
+}
+
+.profile-details p {
+  margin: 0;
+}
+
+.design-image{
+  width: 100%;
+  height: 0;
+  padding-bottom:50%;
+}
+.design-image img{
+  object-fit:cover;
+}
+
+
+.design-add-container {
+  padding: 30px 20px 0;
+  margin: 0 5vw 30px;
+  background: #ffffff;
+}
+.designs-container {
+  padding: 15px 20px;
+  margin: 0 5vw 30px;
+  background: #ffffff;
+}
+
+.profile-designs{
+  position: relative;
+}
+
+
+.design-add-container input,
+.design-add-container textarea,
+.design-add-container select {
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  outline: none;
+  padding: 10px;
+  width: 100%;
+  color: #513D2B;
+  margin-bottom: 30px;
+}
+
+.design-add-container input:focus,
+.design-add-container textarea:focus,
+.design-add-container select:focus {
+  border-color: #513D2B;
+  box-shadow: inset 0px 0px 2px 2px #513d2b2c;
+}
+
+.design-add-container select {
+  background-color: white;
+  height: 45px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.design-upload {
+  margin-bottom: 30px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  color: #513D2B;
+  border: #513D2B solid 2px;
+  border-radius: 8px;
+}
+
+
+.design-add-container .design-add-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.design-add-container .design-add-button input{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  background: #513D2B;
+  border: 1px solid #513D2B;
+  cursor: pointer;
+}
+
+.design-add-container .design-add-button input:hover {
+  background: #2c1e12;
+}
