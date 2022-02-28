@@ -66,9 +66,6 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="pass">
-              <Link to="/password-reset">Forgot password?</Link>
-            </div>
             <div className="input-row button">
               {loading ? (
                 <CircularProgress style={{ color: "#513D2B" }} />
