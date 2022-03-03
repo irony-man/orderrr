@@ -40,7 +40,7 @@ app.use(session({
 
 //mongodb://localhost:27017/
 //
-mongoose.connect("mongodb+srv://shivam:Shivam0401@blog.jdkd4.mongodb.net/orderrrDB", {
+mongoose.connect(process.env.MONGOURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
