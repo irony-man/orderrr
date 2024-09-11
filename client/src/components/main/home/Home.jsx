@@ -14,7 +14,6 @@ import {
   IconButton,
   Typography,
   Tooltip,
-  Button,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -28,12 +27,13 @@ const Home = () => {
   const user = useSelector((state) => state.user);
   const designs = useSelector((state) => state.allDesigns.designs);
   const hasMore = useSelector((state) => state.allDesigns.hasMore);
-  const [page, setPage] = useState(Math.ceil(designs.length / 6) + 1);
+  const [page, setPage] = useState(Math.ceil(designs.length / 8) + 1);
   useEffect(() => {
     if (hasMore === true) {
       dispatch(fetchDesigns(page));
     }
   }, [page]);
+
   const addToCart = (id) => {
     if (user.cart.some((e) => e._id === id)) {
       navigate("/cart");
@@ -43,9 +43,6 @@ const Home = () => {
   };
   const addremToWish = (id) => {
     dispatch(addremWishlist(id));
-  };
-  const avatarLink = (id) => {
-    alert(id);
   };
   return (
     <>
@@ -64,7 +61,7 @@ const Home = () => {
         >
           <div className="row m-0">
             {designs.map((design) => (
-              <div key={design._id} className="col-md-4 col-sm-6 col-12 p-2">
+              <div key={design._id} className="col-xl-3 col-md-4 col-sm-6 col-12 p-2">
                 <Card>
                   <CardHeader
                     avatar={
@@ -108,13 +105,13 @@ const Home = () => {
                   >
                     <CardMedia
                       component="img"
-                      height="200"
+                      height="300"
                       image={design.image.thumb}
                       alt={design.title}
                     />
                     <CardContent>
                       <Typography
-                        variant="h4"
+                        variant="h5"
                         gutterBottom
                         noWrap={true}
                         color="text.primary"

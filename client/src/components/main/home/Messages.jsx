@@ -1,10 +1,10 @@
 import React from "react";
-import { Grid, Typography} from "@mui/material"
+import { Grid, Typography} from "@mui/material";
 
 const Messages = () => {
   return (
     <>
-    <title>Messages | Orderrr</title>
+      <title>Messages | Orderrr</title>
       <Grid
         container
         justifyContent="center"

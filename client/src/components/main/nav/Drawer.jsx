@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   Box,
-  Drawer,
   Badge,
   IconButton,
   List,
@@ -15,7 +14,6 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -25,10 +23,10 @@ const DrawerComp = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const user = useSelector((state) => state.user);
   const icons = [
-    <MailIcon />,
-    <ShoppingCartIcon />,
-    <FavoriteIcon />,
-    <AccountCircle />,
+    <><MailIcon /></>,
+    <><ShoppingCartIcon /></>,
+    <><FavoriteIcon /></>,
+    <><AccountCircle /></>,
   ];
 
   return (

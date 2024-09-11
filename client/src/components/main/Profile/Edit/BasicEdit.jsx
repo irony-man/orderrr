@@ -5,14 +5,11 @@ import {
   Typography,
   InputAdornment,
   IconButton,
-  InputLabel,
   FormControlLabel,
   Switch,
-  CircularProgress,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import Visibility from "@mui/icons-material/Visibility";
@@ -46,7 +43,7 @@ const BasicEdit = () => {
     showPassword: false,
   });
 
-  const enableEditing = (e, v) => {
+  const enableEditing = () => {
     setDisabled(!disabled);
     if (disabled) {
       setValues({
@@ -106,7 +103,7 @@ const BasicEdit = () => {
     setDisabled(true);
     e.preventDefault();
     if(values.name==="" || values.email===""){
-      dispatch(alertMessage({message: "Name and Email are required", type: "error", open: true}))
+      dispatch(alertMessage({message: "Name and Email are required", type: "error", open: true}));
     } else {
       dispatch(editBasicProfile({ ...values, id: user._id }));
     }
@@ -114,7 +111,7 @@ const BasicEdit = () => {
   };
   return (
     <>
-    <title>Edit Profile | Orderrr</title>
+      <title>Edit Profile | Orderrr</title>
       <FormControlLabel
         control={<Switch checked={!disabled} onChange={enableEditing} />}
         label="Edit: "

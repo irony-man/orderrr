@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import Profile from "./Profile";
+import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import DeleteIcon from "@mui/icons-material/Delete";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import {
   CircularProgress,

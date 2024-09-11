@@ -1,6 +1,5 @@
 import { Box, Grid, useMediaQuery, Tabs, Tab, useTheme } from "@mui/material";
 import React, { useState } from "react";
-import Profile from "./Profile";
 import InfoIcon from "@mui/icons-material/Info";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import HomeIcon from "@mui/icons-material/Home";
@@ -8,7 +7,7 @@ import { Link } from "react-router-dom";
 import BasicEdit from "./Edit/BasicEdit";
 import AddressEdit from "./Edit/AddressEdit";
 import BillingEdit from "./Edit/BillingEdit";
-import NotFound from "../NotFound"
+import NotFound from "../NotFound";
 
 const ProfileEdit = () => {
   const theme = useTheme();
@@ -17,10 +16,10 @@ const ProfileEdit = () => {
     "/profile/edit/billing",
     "/profile/edit/address",
   ];
-  const comp = [<BasicEdit />, <BillingEdit />, <AddressEdit />];
+  const comp = [<><BasicEdit /></>, <><BillingEdit /></>, <><AddressEdit /></>];
   const [value, setValue] = useState(links.indexOf(window.location.pathname));
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const icons = [<InfoIcon />, <AccountBalanceIcon />, <HomeIcon />];
+  const icons = [<><InfoIcon /></>, <><AccountBalanceIcon /></>, <><HomeIcon /></>];
   function handleChange(e, v) {
     setValue(v);
   }

@@ -1,26 +1,14 @@
 import {
   Button,
-  FormControl,
   TextField,
   Typography,
-  InputAdornment,
   IconButton,
-  InputLabel,
-  FormControlLabel,
-  Switch,
-  CircularProgress,
   Paper,
   Grid,
-  Select,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import { alertMessage } from "../../../../redux/actions/alertsAction";
 import EditIcon from "@mui/icons-material/Edit";
@@ -65,7 +53,6 @@ const BillingEdit = () => {
   const dispatch = useDispatch();
   const [cards, setCards] = useState([]);
   const [disabled, setDisabled] = useState(false);
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [values, setValues] = useState({

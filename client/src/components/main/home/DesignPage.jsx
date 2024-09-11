@@ -1,17 +1,11 @@
 import {
-  Box,
   Button,
   CircularProgress,
   Grid,
   Typography,
   Rating,
-  Alert,
-  IconButton,
-  Tooltip,
   TextField,
   InputAdornment,
-  DialogContent,
-  Divider,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +16,6 @@ import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { isMobile } from "react-device-detect";
 import {
   addCart,
   addremWishlist,
@@ -47,7 +40,6 @@ const DesignPage = () => {
   const loading = useSelector((state) => state.loading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [readMore, setReadMore] = useState(false);
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -55,7 +47,7 @@ const DesignPage = () => {
   const [open, setOpen] = useState(false);
   const {id} = useParams();
   const ref = new URLSearchParams(window.location.search).get("ref");
-  const found = "user";
+
   useEffect(() => {
     if (ref === "home") {
       dispatch(
@@ -86,6 +78,7 @@ const DesignPage = () => {
       dispatch(getDesign(id));
     }
   }, []);
+
   const addToCart = () => {
     if (user.cart.some((e) => e._id === design._id)) {
       navigate("/cart");
@@ -166,6 +159,7 @@ const DesignPage = () => {
                       border: "2px solid",
                       borderRadius: "20px",
                     }}
+                    alt={design.title}
                   />
                 </Grid>
                 <Grid
@@ -220,6 +214,40 @@ const DesignPage = () => {
                       <LocalOfferIcon fontSize="small" /> {design.type}
                     </Typography>
                   </Grid>
+
+                  {!user.designs.some((e) => e._id === design._id) ? (
+                    <Grid spacing={1} container sx={{ m: "30px 0 10px" }}>
+                      <Grid item xs={6}>
+                        <Button
+                          variant="outlined"
+                          fullWidth
+                          style={{
+                            padding: "10px 0",
+                          }}
+                          startIcon={user.wishlist.some((e) => e._id === design._id) ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
+                          onClick={addremToWish}
+                        >
+                          {user.wishlist.some((e) => e._id === design._id) ?  "In the Wishlist": "Add to Wishlist"}
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          sx={{
+                            padding: "10px 0",
+                          }}
+                          startIcon={user.cart.some((e) => e._id === design._id) ? <ShoppingCartOutlined /> : <AddShoppingCartIcon />}
+                          onClick={addToCart}
+                        >
+                          {user.cart.some((e) => e._id === design._id) ? "Go to Cart": "Add to Cart"}
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
+
                   <Grid
                     container
                     justifyContent="space-between"
@@ -257,7 +285,7 @@ const DesignPage = () => {
                       label="Description"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      rows={6}
+                      rows={18}
                       margin="normal"
                       multiline
                       fullWidth
@@ -277,133 +305,37 @@ const DesignPage = () => {
                               : "0",
                         }}
                       >
-                        {design.description.slice(0, 800)}
-                        <span
-                          onClick={() => setReadMore(true)}
-                          style={{ cursor: "pointer" }}
-                        >
-                          <b>
-                            {design.description.length >= 800
-                              ? readMore
-                                ? "...Read Less"
-                                : "...Read More"
-                              : ""}
-                          </b>
-                        </span>
+                        {design.description}
                       </Typography>
-                      <Dialog
-                        open={readMore}
-                        onClose={() => setReadMore(false)}
-                        scroll="paper"
-                        fullWidth
-                      >
-                        <Tooltip title={design.title}>
-                          <DialogTitle noWrap>{design.title}</DialogTitle>
-                        </Tooltip>
-                        <DialogContent>{design.description}</DialogContent>
-                        <Divider />
-                        <DialogActions>
-                          <Button
-                            variant="contained"
-                            onClick={() => setReadMore(false)}
-                          >
-                            Ok
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
                     </>
                   )}
-                  {user._id ? (
-                    <Grid container sx={{ m: "30px 0 10px" }}>
+
+                  {user.designs.some((e) => e._id === design._id) ? (
+                    <Grid spacing={1} container sx={{ m: "30px 0 10px" }}>
                       <Grid item xs={6}>
                         <Button
                           variant="outlined"
+                          fullWidth
                           style={{
-                            width: "98%",
                             padding: "10px 0",
                           }}
-                          onClick={() =>
-                            user.designs.some((e) => e._id === design._id)
-                              ? editing
-                                ? saveChanges()
-                                : editProduct()
-                              : addremToWish()
-                          }
+                          startIcon={editing ? <CheckCircleIcon /> : <EditIcon />}
+                          onClick={() => editing ? saveChanges() : editProduct()}
                         >
-                          {user.designs.some((e) => e._id === design._id) ? (
-                            editing ? (
-                              <>
-                                <CheckCircleIcon /> Save Changes
-                              </>
-                            ) : (
-                              <>
-                                <EditIcon /> Edit
-                              </>
-                            )
-                          ) : user.wishlist.some(
-                              (e) => e._id === design._id
-                            ) ? (
-                            <>
-                              <FavoriteIcon /> In the Wishlist
-                            </>
-                          ) : (
-                            <>
-                              <FavoriteBorderOutlinedIcon />
-                              Add to Wishlist
-                            </>
-                          )}
+                          {editing ?  "Save Changes" : "Edit"}
                         </Button>
                       </Grid>
                       <Grid item xs={6}>
-                        <Dialog open={open} onClose={() => setOpen(false)}>
-                          <DialogTitle>
-                            Are you sure you want to delete this?
-                          </DialogTitle>
-                          <DialogActions>
-                            <Button onClick={() => setOpen(false)}>No</Button>
-                            <Button
-                              variant="contained"
-                              onClick={deletePost}
-                              autoFocus
-                            >
-                              Yes
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
                         <Button
+                          fullWidth
                           variant="contained"
                           sx={{
-                            width: "98%",
                             padding: "10px 0",
                           }}
-                          onClick={() =>
-                            user.designs.some((e) => e._id === design._id)
-                              ? editing
-                                ? setEditing(false)
-                                : setOpen(true)
-                              : addToCart()
-                          }
+                          startIcon={editing ? <CancelIcon /> : <DeleteIcon />}
+                          onClick={() => editing ? setEditing(false) : setOpen(true)}
                         >
-                          {user.designs.some((e) => e._id === design._id) ? (
-                            editing ? (
-                              <>
-                                <CancelIcon />
-                                Cancel
-                              </>
-                            ) : (
-                              <>
-                                <DeleteIcon /> Delete
-                              </>
-                            )
-                          ) : user.cart.some((e) => e._id === design._id) ? (
-                            <>
-                              <ShoppingCartOutlined /> Go to Cart
-                            </>
-                          ) : (
-                            <>
-                              <AddShoppingCartIcon /> Add to Cart
-                            </>
-                          )}
+                          {editing ? "Cancel":"Delete"}
                         </Button>
                       </Grid>
                     </Grid>
@@ -414,6 +346,21 @@ const DesignPage = () => {
               </Grid>
             </form>
           </div>
+          <Dialog open={open} onClose={() => setOpen(false)}>
+            <DialogTitle>
+              Are you sure you want to delete this?
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={() => setOpen(false)}>No</Button>
+              <Button
+                variant="contained"
+                onClick={deletePost}
+                autoFocus
+              >
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
         </>
       )}
     </>

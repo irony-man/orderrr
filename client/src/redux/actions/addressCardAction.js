@@ -37,11 +37,11 @@ export const addressAction = () => {
 };
 
 export const selectAddress = (id) =>{
- return {
-  type: ActionTypes.SELECT_ADDRESS,
-  payload: id,
- };
-}
+  return {
+    type: ActionTypes.SELECT_ADDRESS,
+    payload: id,
+  };
+};
 
 export const cardAction = () => {
   return (dispatch) => {
@@ -79,8 +79,8 @@ export const cardAction = () => {
 };
 
 export const selectCard = (id) =>{
- return {
-  type: ActionTypes.SELECT_CARD,
-  payload: id,
- };
-}
+  return {
+    type: ActionTypes.SELECT_CARD,
+    payload: id,
+  };
+};

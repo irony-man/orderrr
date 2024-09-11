@@ -2,19 +2,16 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Stepper,
-  Paper,
   Step,
   StepLabel,
   Button,
   Typography,
   List,
   ListItem,
-  ListItemAvatar,
   Divider,
   ListItemButton,
   ListItemText,
   Grid,
-  Avatar,
   CircularProgress,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -165,7 +162,7 @@ export default function PlaceOrder() {
     </>
   );
 
-  const page = [AddressPage, CardPage, <Complete />];
+  const page = [AddressPage, CardPage, <><Complete/></>];
   return (
     <>
       <title>Place Order | Orderrr</title>

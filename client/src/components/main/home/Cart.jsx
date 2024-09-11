@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Grid,
@@ -15,12 +15,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { removeCart, addremWishlist } from "../../../redux/actions/userAction";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import axios from "axios";
-import {
-  addressAction,
-  cardAction,
-} from "../../../redux/actions/addressCardAction";
-import { alertMessage } from "../../../redux/actions/alertsAction";
 
 const Cart = () => {
   const user = useSelector((state) => state.user);

@@ -1,23 +1,11 @@
 import {
   Button,
   Box,
-  FormControl,
   TextField,
   Typography,
-  InputAdornment,
   IconButton,
-  InputLabel,
-  FormControlLabel,
-  Switch,
   CircularProgress,
-  Paper,
   Grid,
-  Select,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
 } from "@mui/material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
@@ -26,14 +14,12 @@ import { alertMessage } from "../../../../redux/actions/alertsAction";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { addressAction } from "../../../../redux/actions/addressCardAction";
 
 const AddressEdit = () => {
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState([]);
   const [disabled, setDisabled] = useState(false);
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [values, setValues] = useState({
@@ -66,7 +52,7 @@ const AddressEdit = () => {
     if (prop === "pincode") {
       if (event.target.value.toString().length > 6) return;
     }
-    setValues({ ...values, [prop]: event.target.value });
+    setValues({...values, [prop]: event.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -168,7 +154,6 @@ const AddressEdit = () => {
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
     }
   };
 
@@ -299,26 +284,28 @@ const AddressEdit = () => {
               <CircularProgress />
             </Box>
           ) : (
-            address.length===0?<Typography variant="h5" textAlign='center'>No saved addresses!!</Typography>:
-            address.map((add, index) => (
-              <Box sx={{ border: "1px solid", mt: 1, p: 2 }} key={index}>
-                <Typography variant="h6">Pincode: {add.pincode}</Typography>
-                <Typography variant="body">
+            address.length===0?
+              (<Typography variant="h5" textAlign='center'>No saved addresses!!</Typography>)
+              :
+              (address.map((add, index) => (
+                <Box sx={{ border: "1px solid", mt: 1, p: 2 }} key={index}>
+                  <Typography variant="h6">Pincode: {add.pincode}</Typography>
+                  <Typography variant="body">
                   Full Address: {add.fullAddress}
-                </Typography>
-                <Box sx={{ mt: 1 }}>
-                  <IconButton onClick={() => handleValues(index)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    sx={{ ml: 1, color: "red" }}
-                    onClick={() => handleDelete(add._id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  </Typography>
+                  <Box sx={{ mt: 1 }}>
+                    <IconButton onClick={() => handleValues(index)}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      sx={{ ml: 1, color: "red" }}
+                      onClick={() => handleDelete(add._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
-              </Box>
-            ))
+              )))
           )}
         </>
       )}

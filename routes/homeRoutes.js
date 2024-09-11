@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.get("/home", (req, res) => {
   const {
-    page
+    page, limit
   } = req.query;
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: 6,
+    limit: limit || 8,
     sort: {
       _id: -1,
     },

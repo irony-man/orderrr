@@ -66,7 +66,7 @@ const Signup = () => {
   };
   return (
     <>
-    <title>Sign Up | Orderrr</title>
+      <title>Sign Up | Orderrr</title>
       <Grid container sx={{ height: "100vh", mt: -10 }}>
         <Grid item xs={false} sm={4} md={7} className={classes.bgimage} />
         <Grid item xs={12} sm={8} md={5}>

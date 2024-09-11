@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -7,23 +7,15 @@ import MailIcon from "@mui/icons-material/Mail";
 import {
   AppBar,
   Badge,
-  Box,
   Menu,
   MenuItem,
   Avatar,
-  Tooltip,
-  Tab,
-  Tabs,
-  Button,
   Toolbar,
   Typography,
   useMediaQuery,
   useTheme,
   IconButton,
-  Grid,
-  SvgIcon
-} from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+  Grid} from "@mui/material";
 import DrawerComp from "./Drawer";
 import Logout from "../Profile/Logout";
 
@@ -45,7 +37,7 @@ const Navbar = () => {
   };
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const user = useSelector((state) => state.user);
-  const icons = [<MailIcon />, <ShoppingCartIcon />, <FavoriteIcon />];
+  const icons = [<><MailIcon /></>, <><ShoppingCartIcon /></>, <><FavoriteIcon /></>];
 
   return (
     <>
@@ -74,7 +66,7 @@ const Navbar = () => {
                   <Typography
                     variant="h6"
                     component={Link}
-                    to={`/${text}`}
+                    to={`/${text.toLowerCase()}`}
                     key={index}
                     sx={{
                       color: "text.primary",
@@ -93,9 +85,9 @@ const Navbar = () => {
                 ))}
               </Grid>
               <IconButton onClick={handleOpenUserMenu}>
-                  <Avatar src={user.picture.link}
-                    sx={{ width: 30, height: 30}}
-                  />
+                <Avatar src={user.picture.link}
+                  sx={{ width: 30, height: 30}}
+                />
               </IconButton>
               <Menu
                 sx={{ mt: "45px" }}

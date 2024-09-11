@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import Logout from "./Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,7 +8,6 @@ import {
   Paper,
   Box,
   Typography,
-  IconButton,
   Dialog,
   DialogActions,
   DialogTitle,
@@ -20,7 +18,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -29,8 +26,6 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { changeTheme } from "../../../redux/actions/userAction";
 import {
@@ -47,10 +42,10 @@ const ProfileHeader = () => {
   const { id } = useParams();
   const links = ["/profile/edit", "/profile/new", "/profile/orders"];
   const userIcons = [
-    <EditIcon />,
-    <AddCircleIcon />,
-    <ShoppingBagIcon />,
-    <Brightness7Icon />,
+    <><EditIcon /></>,
+    <><AddCircleIcon /></>,
+    <><ShoppingBagIcon /></>,
+    <><Brightness7Icon /></>,
   ];
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(loggedUser.theme);
@@ -79,7 +74,7 @@ const ProfileHeader = () => {
           .slice(0)
           .reverse()
           .map((design) => (
-            <Grid key={design._id} md={4} xs={6} item>
+            <Grid key={design._id} xl={2} md={4} lg={3} xs={6} item>
               <Link to={`/product/${design._id}${id ? "" : "?ref=profile"}`}>
                 <img
                   className="img-fluid profile-designs"
@@ -173,10 +168,9 @@ const ProfileHeader = () => {
     return (
       <Grid textAlign={"center"} item md={3} sm={12}>
         <img
-          width="130px"
-          style={{ borderRadius: "50%", border: "2px solid" }}
+          style={{ borderRadius: "50%", border: "2px solid", maxWidth: "150px" }}
           src={user.picture.link}
-          alt="Profile Image"
+          alt="Profile"
         />
         <Tooltip title={user.username || ""}>
           <Typography variant="h5" noWrap sx={{ mt: 2 }}>

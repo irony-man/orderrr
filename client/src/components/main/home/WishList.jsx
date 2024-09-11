@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,11 +14,8 @@ import {
   IconButton,
   Typography,
   Tooltip,
-  Button,
-  TextField
-} from "@mui/material";
+  Button} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
@@ -37,40 +34,37 @@ const WishList = () => {
   const addremToWish = (id) => {
     dispatch(addremWishlist(id));
   };
-  const avatarLink = (id) => {
-    alert(id);
-  };
   return (
     <>
       <title>Wishlist | Orderrr</title>
       {user.wishlist.length === 0 ? (
         <>
           <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              direction="column"
-            >
-              <Typography variant="h4" color="text.primary">
+            container
+            justifyContent="center"
+            alignItems="center"
+            direction="column"
+          >
+            <Typography variant="h4" color="text.primary">
                 The wishlist is empty!!
-              </Typography>
-              <Button
-                variant="contained"
-                style={{
-                  marginTop: "30px",
-                  padding: "10px",
-                  textDecoration: "none",
-                }}
-                onClick={() => navigate("/")}
-              >
+            </Typography>
+            <Button
+              variant="contained"
+              style={{
+                marginTop: "30px",
+                padding: "10px",
+                textDecoration: "none",
+              }}
+              onClick={() => navigate("/")}
+            >
                 Continue Shopping!!
-              </Button>
-            </Grid>
+            </Button>
+          </Grid>
         </>
       ) : (
         <div className="row m-0">
           {user.wishlist.map((design) => (
-            <div key={design._id} className="col-md-4 col-sm-6 col-12 p-2">
+            <div key={design._id} className="col-xl-3 col-md-4 col-sm-6 col-12 p-2">
               <Card>
                 <Link
                   to={`/product/${design._id}?ref=wishlist`}
@@ -78,7 +72,7 @@ const WishList = () => {
                 >
                   <CardMedia
                     component="img"
-                    height="200"
+                    height="300"
                     image={design.image.thumb}
                     alt={design.title}
                   />

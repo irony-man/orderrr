@@ -1,30 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, {  } from "react";
 import {
   Box,
-  Stepper,
-  Paper,
-  Step,
-  StepLabel,
-  Button,
   Typography,
   List,
   ListItem,
   ListItemAvatar,
   Divider,
-  ListItemButton,
   ListItemText,
   Grid,
   Avatar,
-  CircularProgress,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@mui/styles";
+import { useSelector } from "react-redux";
 
 const Complete = () => {
   const addresses = useSelector((state) => state.address);
   const user = useSelector((state) => state.user);
   const cards = useSelector((state) => state.cards);
-  const loading = useSelector((state) => state.loading);
   const sum = user.cart.reduce((a, b) => {
     return a + b.price;
   }, 0);

@@ -6,7 +6,7 @@ import {
 export const fetchDesigns = (page) => {
   return (dispatch) => {
     axios
-      .get(`/home?page=${page}`)
+      .get(`/home?page=${page}&limit=8`)
       .then((response) => {
         dispatch({
           type: ActionTypes.ALL_DESIGNS,
@@ -21,7 +21,7 @@ export const fetchDesigns = (page) => {
             type: "error",
             open: true,
           }
-        })
+        });
       });
   };
 };

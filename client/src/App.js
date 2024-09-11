@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Paths from "./components/Paths";
-import Snake from "snake-game-react";
-import { CircularProgress, IconButton, Typography } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { changeTheme, removeUser, userLogged } from "./redux/actions/userAction";
-import { TextField, Box } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import MuiAlert from "@mui/material/Alert";
+import { removeUser, userLogged } from "./redux/actions/userAction";
+import { Box } from "@mui/material";
 import AlertMessage from "./utils/AlertMessage";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useCookies } from "react-cookie";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -74,16 +67,16 @@ function App() {
           bgcolor: "background.default",
         }}
       ></Box>
-        {loading ? (
-          <div className="loader">
-            <CircularProgress style={{ color: "text.primary" }} />
-          </div>
-        ) : (
-          <>
-            <Paths />
-            <AlertMessage />
-          </>
-        )}
+      {loading ? (
+        <div className="loader">
+          <CircularProgress style={{ color: "text.primary" }} />
+        </div>
+      ) : (
+        <>
+          <Paths />
+          <AlertMessage />
+        </>
+      )}
     </ThemeProvider>
   );
 }
