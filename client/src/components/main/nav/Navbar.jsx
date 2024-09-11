@@ -115,7 +115,7 @@ const Navbar = () => {
           )}
         </Toolbar>
       </AppBar>
-      <div style={{ paddingBottom: "80px" }}></div>
+      <div style={{ paddingBottom: "120px" }}></div>
     </>
   );
 };

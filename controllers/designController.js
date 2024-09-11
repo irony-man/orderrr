@@ -141,16 +141,10 @@ const designEdit = (req, res) => {
               description
             })
             .then((result) => {
-              if (result.modifiedCount === 1) {
-                res.json({
-                  message: "Changes Saved!!",
-                  status: true
-                });
-              } else {
-                res.json({
-                  message: "No changes to save!!"
-                });
-              }
+              res.json({
+                message: "Changes Saved!!",
+                status: true
+              });
             })
             .catch((err) => {
               res.status(500).json({

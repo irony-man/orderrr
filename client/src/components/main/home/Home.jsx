@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { addCart, addremWishlist } from "../../../redux/actions/userAction";
 import {
+  Box,
   CircularProgress,
   Avatar,
   Card,
@@ -47,6 +48,21 @@ const Home = () => {
   return (
     <>
       <title>Orderrr</title>
+      <div className="hero-container">
+        <Box className="text-center" sx={{ maxWidth: "920px", bgcolor: "background.paper", color: "text.primary", padding: 4}}>
+          <Typography
+            variant="h2"
+            className="fw-normal mb-2"
+          >
+              Welcome to <strong>Orderrr</strong>
+          </Typography>
+          <Typography
+            variant="body1"
+          >
+              Are you a designer with a passion for turning ideas into stunning visuals? <strong>Orderrr</strong> is the perfect platform for you to showcase and sell your unique designs to a global audience. Whether you specialize in graphics, illustrations, templates, or any other creative work, our marketplace is designed to help you reach potential buyers and turn your creative talents into profit.
+          </Typography>
+        </Box>
+      </div>
       <div style={{ margin: "0 1vw" }}>
         <InfiniteScroll
           style={{ overflow: "hidden" }}
@@ -59,9 +75,9 @@ const Home = () => {
             </div>
           }
         >
-          <div className="row m-0">
+          <div className="row g-5 m-0">
             {designs.map((design) => (
-              <div key={design._id} className="col-xl-3 col-md-4 col-sm-6 col-12 p-2">
+              <div key={design._id} className="col-xl-3 col-md-4 col-sm-6 col-12">
                 <Card>
                   <CardHeader
                     avatar={

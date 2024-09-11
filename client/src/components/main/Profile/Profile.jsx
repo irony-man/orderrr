@@ -141,7 +141,7 @@ const ProfileHeader = () => {
     return (
       <Grid item md={3} xs={12}>
         <List>
-          {["Edit Profile", "Add Design", "Orders", "Theme"].map(
+          {["Edit Profile", "Add Design", "Orders"].map(
             (text, index) => (
               <ListItem
                 key={index}

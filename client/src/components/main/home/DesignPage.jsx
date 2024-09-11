@@ -144,23 +144,18 @@ const DesignPage = () => {
                 alignItems="flex-start"
               >
                 <Grid
-                  lg={"auto"}
+                  lg={5}
                   sm={12}
                   item
                   sx={{ color: "text.primary", textAlign: "center" }}
                   justifyContent="center"
                 >
-                  <img
-                    src={design.image.full}
-                    style={{
-                      maxHeight: "calc(100vh - 150px)",
-                      width: "fit",
-                      maxWidth: "100%",
-                      border: "2px solid",
-                      borderRadius: "20px",
-                    }}
-                    alt={design.title}
-                  />
+                  <div className="design-img-container">
+                    <img
+                      src={design.image.full}
+                      alt={design.title}
+                    />
+                  </div>
                 </Grid>
                 <Grid
                   lg
