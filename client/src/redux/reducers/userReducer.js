@@ -16,6 +16,7 @@ export const userLoggedReducer = (state = initialState, {
   type,
   payload
 }) => {
+  let update = state.designs.filter(design => design._id === payload.id);
   switch (type) {
     case ActionTypes.USER_LOGGED:
       return {
@@ -28,9 +29,6 @@ export const userLoggedReducer = (state = initialState, {
         designs: [...state.designs, ...payload],
       };
     case ActionTypes.EDIT_DESIGN:
-      const update = state.designs.filter((design) => {
-        return design._id === payload.id;
-      });
       update[0].title = payload.title;
       update[0].price = payload.price;
       update[0].description = payload.description;
