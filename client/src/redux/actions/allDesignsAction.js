@@ -13,7 +13,7 @@ export const fetchDesigns = (page) => {
           payload: response.data,
         });
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch({
           type: ActionTypes.ALERT,
           payload: {

@@ -14,8 +14,8 @@ const AlertMessage = () => {
     return state.alert;
   });
   const handleClose = () => {
-      dispatch(alertMessage({ open: false }));
-    };
+    dispatch(alertMessage({ open: false }));
+  };
   return (
     <>
       <Snackbar
