@@ -6,6 +6,7 @@ import {
   Rating,
   TextField,
   InputAdornment,
+  Box,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -150,12 +151,12 @@ const DesignPage = () => {
                   sx={{ color: "text.primary", textAlign: "center" }}
                   justifyContent="center"
                 >
-                  <div className="design-img-container">
+                  <Box className="design-img-container" sx={{bgcolor: "background.paper"}}>
                     <img
                       src={design.image.full}
                       alt={design.title}
                     />
-                  </div>
+                  </Box>
                 </Grid>
                 <Grid
                   lg
@@ -210,38 +211,6 @@ const DesignPage = () => {
                     </Typography>
                   </Grid>
 
-                  {!user.designs.some((e) => e._id === design._id) ? (
-                    <Grid spacing={1} container sx={{ m: "30px 0 10px" }}>
-                      <Grid item xs={6}>
-                        <Button
-                          variant="outlined"
-                          fullWidth
-                          style={{
-                            padding: "10px 0",
-                          }}
-                          startIcon={user.wishlist.some((e) => e._id === design._id) ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
-                          onClick={addremToWish}
-                        >
-                          {user.wishlist.some((e) => e._id === design._id) ?  "In the Wishlist": "Add to Wishlist"}
-                        </Button>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          sx={{
-                            padding: "10px 0",
-                          }}
-                          startIcon={user.cart.some((e) => e._id === design._id) ? <ShoppingCartOutlined /> : <AddShoppingCartIcon />}
-                          onClick={addToCart}
-                        >
-                          {user.cart.some((e) => e._id === design._id) ? "Go to Cart": "Add to Cart"}
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  ) : (
-                    ""
-                  )}
 
                   <Grid
                     container
@@ -275,6 +244,38 @@ const DesignPage = () => {
                       readOnly
                     />
                   </Grid>
+                  {!user.designs.some((e) => e._id === design._id) ? (
+                    <Grid spacing={1} container sx={{ m: "30px 0 10px" }}>
+                      <Grid item xs={6}>
+                        <Button
+                          variant="outlined"
+                          fullWidth
+                          style={{
+                            padding: "10px 0",
+                          }}
+                          startIcon={user.wishlist.some((e) => e._id === design._id) ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
+                          onClick={addremToWish}
+                        >
+                          {user.wishlist.some((e) => e._id === design._id) ?  "In the Wishlist": "Add to Wishlist"}
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          sx={{
+                            padding: "10px 0",
+                          }}
+                          startIcon={user.cart.some((e) => e._id === design._id) ? <ShoppingCartOutlined /> : <AddShoppingCartIcon />}
+                          onClick={addToCart}
+                        >
+                          {user.cart.some((e) => e._id === design._id) ? "Go to Cart": "Add to Cart"}
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
                   {editing ? (
                     <TextField
                       label="Description"
@@ -293,11 +294,7 @@ const DesignPage = () => {
                         variant="subtitle1"
                         sx={{
                           mt: 3,
-                          color: "text.primary",
-                          height:
-                            design.description.length <= 800
-                              ? "calc(100vh - 400px)"
-                              : "0",
+                          color: "text.primary"
                         }}
                       >
                         {design.description}
