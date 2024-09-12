@@ -16,10 +16,13 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(../public/hero.jpeg);
+  /* background-image: url(../public/hero.jpeg);
   background-clip: border-box;
   background-position: top;
-  background-size: cover;
+  background-size: cover; */
+
+  background-image:  linear-gradient(#a292711a 1.2px, transparent 1.2px), linear-gradient(to right, #a292711a 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
 }
 
 .point-bar{

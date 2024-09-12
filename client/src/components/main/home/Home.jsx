@@ -49,7 +49,7 @@ const Home = () => {
     <>
       <title>Orderrr</title>
       <div className="hero-container">
-        <Box className="text-center" sx={{ maxWidth: "920px", bgcolor: "background.paper", color: "text.primary", padding: 4}}>
+        <Box className="text-center" sx={{ maxWidth: "920px", color: "text.primary"}}>
           <Typography
             variant="h2"
             className="fw-normal mb-2"

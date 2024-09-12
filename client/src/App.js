@@ -19,15 +19,15 @@ function App() {
   if (userTheme === "system") {
     userTheme = system ? "dark" : "light";
   }
-  userTheme = "light"
+  
   const dispatch = useDispatch();
   const theme = createTheme({
     palette: {
       mode: userTheme,
       ...(userTheme === 'light'? {
         background: {
-          default: "#ffefd5",
-          paper: '#ffe4c4',
+          default: "#F9F6F1",
+          // paper: '#ffe4c4',
         },
         primary: {
           main: "#000",
