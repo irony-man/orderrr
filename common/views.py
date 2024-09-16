@@ -47,9 +47,7 @@ class AuthMixin:
             request, *args, **kwargs
         )
 
-
-
-class HomePage(AuthMixin, TemplateView):
+class HomePage(TemplateView):
     template_name = "common/home.html"
 
 
