@@ -1,4 +1,5 @@
 from copy import copy
+
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django_countries.serializers import CountryFieldMixin
@@ -110,10 +111,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
             instance.user.email = user.email
             instance.user.save()
             if "raw_password" in validated_data:
-                user_instance.set_password(raw_password=validated_data.pop("raw_password"))
+                user_instance.set_password(
+                    raw_password=validated_data.pop("raw_password")
+                )
                 user_instance.save()
 
-        return super(UserProfileSerializer, self).update(instance, validated_data)
+        return super(UserProfileSerializer, self).update(
+            instance, validated_data
+        )
 
 
 class LiteUserProfileSerializer(serializers.ModelSerializer):

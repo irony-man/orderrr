@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -94,7 +94,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "orderrr.wsgi.application"
 ASGI_APPLICATION = "orderrr.asgi.application"
-
 
 
 # Database
@@ -231,8 +230,10 @@ MEDIAFILES_LOCATION = "media"
 REQUESTS_TIMEOUT = 10
 
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+    STATICFILES_STORAGE = (
+        "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    )
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,

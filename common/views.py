@@ -8,6 +8,7 @@ from django.db.models import Case, F, Q, Sum, Value, When
 # from django.shortcuts import get_object_or_404
 # from django.utils import timezone
 from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 from rest_framework.decorators import action
 
 # from rest_framework.exceptions import ValidationError
@@ -16,7 +17,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-from django.views.generic import TemplateView
 from common.filters import DesignFilter
 from common.models import (
     Address,
@@ -46,6 +46,7 @@ class AuthMixin:
         return super(AuthMixin, self).dispatch(  # noqa
             request, *args, **kwargs
         )
+
 
 class HomePage(TemplateView):
     template_name = "common/home.html"

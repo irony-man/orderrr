@@ -8,8 +8,9 @@
 # from platform import machine
 # from typing import Any, Callable, Collection, Dict, List, Optional
 
-import requests
 import pgeocode
+import requests
+
 # import bcrypt
 # import pgeocode
 # from django.conf import settings
@@ -206,4 +207,4 @@ class Address(CreateUpdate):
         postal_data = country_data.query_postal_code(self.postal_code)
         self.city = postal_data["county_name"]
         self.state = postal_data["state_name"]
-        super(Address, self).save( **kwargs)
+        super(Address, self).save(**kwargs)
