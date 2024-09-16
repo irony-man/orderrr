@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 # Standard Library
 import os
+import sys
 from logging.handlers import SysLogHandler
 from pathlib import Path
 
@@ -26,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("ORD_DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv("ODR_DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("ORD_DEBUG", False) == "True"
+DEBUG = os.getenv("ODR_DEBUG", False) == "True"
 
-ALLOWED_HOSTS = os.getenv("ORD_ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = os.getenv("ODR_ALLOWED_HOSTS", "").split(",")
 
 # Application definition
 
@@ -43,12 +44,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
     # Third Party
     "rest_framework",
+    # "easy_thumbnails",
     # "phonenumber_field",
     # "django_filters",
-    # "easy_thumbnails",
-    # "django_countries",
+    "django_countries",
     # Internal
     "common.apps.CommonConfig",
 ]
@@ -58,9 +60,12 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "common.middleware.PatchRequestMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "common.middleware.TimezoneMiddleware",
 ]
 
 ROOT_URLCONF = "orderrr.urls"
@@ -90,9 +95,9 @@ ASGI_APPLICATION = "orderrr.asgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -169,10 +174,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "global_static"),)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = reverse_lazy("home")
-LOGIN_REDIRECT_URL = reverse_lazy("home")
-LOGOUT_URL = reverse_lazy("logout")
-
 # Django Vite
 DJANGO_VITE_ASSETS_PATH = BASE_DIR / "common" / "static" / "common"
 DJANGO_VITE_DEV_MODE = False
@@ -194,7 +195,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
-        # "rest_framework.permissions.IsAuthenticated"
+        # "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_PARSER_CLASSES": (
         "rest_framework.parsers.FormParser",
@@ -215,9 +216,9 @@ PHONENUMBER_DEFAULT_FORMAT = "E164"
 
 # Media
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.getenv("ORD_MEDIA_ROOT")
+MEDIA_ROOT = os.getenv("ODR_MEDIA_ROOT")
 
-BASE_URL = os.getenv("ORD_BASE_URL")
+BASE_URL = os.getenv("ODR_BASE_URL")
 
 MEDIAFILES_LOCATION = "media"
 

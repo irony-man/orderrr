@@ -1,0 +1,13 @@
+{% extends 'common/base.html' %}
+{% load vite_tags static %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block script %}
+  {% vite_js "src/main.jsx" %}
+{% endblock script %}
+
+{% block content %}
+<div id="root"></div>
+{% endblock content %}
