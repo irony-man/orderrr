@@ -6,7 +6,6 @@ import { removeUser, userLogged } from "./redux/actions/userAction";
 import AlertMessage from "./utils/AlertMessage";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function App() {

@@ -48,6 +48,7 @@ click==8.1.7
     #   click-plugins
     #   click-repl
     #   pip-tools
+    #   uvicorn
 click-didyoumean==0.3.1
     # via celery
 click-plugins==1.1.1
@@ -100,11 +101,15 @@ flake8==4.0.1
     #   flake8-isort
 flake8-isort==4.1.1
     # via -r requirements.in
+gunicorn==23.0.0
+    # via -r requirements.in
+h11==0.14.0
+    # via uvicorn
 hiredis==2.3.2
     # via -r requirements.in
-identify==2.6.0
+identify==2.6.1
     # via pre-commit
-idna==3.8
+idna==3.10
     # via requests
 iso3166==2.0.2
     # via -r requirements.in
@@ -144,6 +149,7 @@ packaging==24.1
     # via
     #   black
     #   build
+    #   gunicorn
 pandas==2.2.2
     # via pgeocode
 pathspec==0.12.1
@@ -158,7 +164,7 @@ pillow==9.3.0
     #   easy-thumbnails
 pip-tools==7.4.1
     # via -r requirements.in
-platformdirs==4.3.2
+platformdirs==4.3.3
     # via
     #   black
     #   pylint
@@ -246,6 +252,8 @@ urllib3==1.26.20
     #   botocore
     #   requests
     #   sentry-sdk
+uvicorn==0.30.6
+    # via -r requirements.in
 uwsgi==2.0.21
     # via -r requirements.in
 vine==5.1.0
@@ -261,6 +269,8 @@ wcwidth==0.2.13
     # via prompt-toolkit
 wheel==0.44.0
     # via pip-tools
+whitenoise==6.7.0
+    # via -r requirements.in
 wrapt==1.16.0
     # via astroid
 
