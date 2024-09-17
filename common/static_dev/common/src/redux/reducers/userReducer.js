@@ -2,7 +2,7 @@ import { ActionTypes } from "../constants/action-types";
 
 const initialState = {
   cart_length: 0,
-  theme: localStorage.getItem("theme") || "system",
+  theme: localStorage.getItem("theme") || "auto",
   is_logged: false,
 };
 

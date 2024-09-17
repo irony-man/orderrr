@@ -164,7 +164,7 @@ const ProfileHeader = () => {
                     />
                     <FormControlLabel value="dark" control={<Radio />} label="Dark" />
                     <FormControlLabel
-                      value="system"
+                      value="auto"
                       control={<Radio />}
                       label="System Defualt"
                     />

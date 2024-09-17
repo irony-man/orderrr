@@ -13,7 +13,7 @@ function App() {
   var userTheme = useSelector((state) => state.user.theme);
   const system = useMediaQuery("(prefers-color-scheme: dark)");
 
-  if (userTheme.toUpperCase() === "SYSTEM") {
+  if (userTheme.toUpperCase() === "AUTO") {
     userTheme = system ? "dark" : "light";
   }
 
