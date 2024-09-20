@@ -1,11 +1,11 @@
 import {useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./main/nav/Navbar.jsx";
-// import Login from "./login/Login";
-// import Signup from "./login/Signup";
-// import Setpass from "./login/SetPass";
-// import Sendmail from "./login/SendMail";
-// import LoginRoute from "../utils/LoginRoute";
+import Login from "./login/Login";
+import Signup from "./login/Signup";
+import Setpass from "./login/SetPass";
+import Sendmail from "./login/SendMail";
+import LoginRoute from "../utils/LoginRoute";
 import PrivateRoute from "../utils/PrivateRoute.jsx";
 import Home from "./main/home/Home.jsx";
 import Cart from "./main/home/Cart.jsx";
@@ -44,6 +44,12 @@ function Paths() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/design/:uid" element={<DesignPage />} />
+          <Route element={<LoginRoute />}>
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/signup" element={<Signup />} />
+            <Route exact path="/password-reset" element={<Sendmail />} />
+            <Route exact path="/verify/" element={<Setpass />} />
+          </Route>
           <Route element={<PrivateRoute />}>
             <Route exact path="/design/new" element={<DesignForm />} />
             <Route exact path="/design/:uid/edit" element={<DesignForm />} />

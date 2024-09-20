@@ -1,5 +1,5 @@
 import { Box, Tabs, Tab } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import InfoIcon from "@mui/icons-material/Info";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import HomeIcon from "@mui/icons-material/Home";

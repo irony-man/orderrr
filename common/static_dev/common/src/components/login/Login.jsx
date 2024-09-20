@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Grid,
-  Typography,
-  TextField,
-  Button,
-} from "@mui/material";
-import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Box, Grid, Typography, TextField, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { userLogged } from "../../redux/actions/userAction";
+import { setUser } from "../../redux/actions/userAction";
 import { alertMessage } from "../../redux/actions/alertsAction";
 import { makeStyles } from "@mui/styles";
+import apis from "../../redux/actions/apis";
+import { HttpBadRequestError } from "../../redux/network";
 
 const useStyles = makeStyles({
   bgimage: {
@@ -23,46 +18,38 @@ const useStyles = makeStyles({
   },
 });
 const Login = () => {
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
   const classes = useStyles();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    axios
-      .post("/login", { email, password })
-      .then(function (response) {
-        setLoading(false);
-        if (response.status === 200) {
-          dispatch(userLogged(response.data));
-          navigate("/");
-        }
-        if (response.data.message) {
-          dispatch(
-            alertMessage({
-              message: response.data.message,
-              type: "success",
-              open: true,
-            })
-          );
-        }
-      })
-      .catch(function (error) {
-        setLoading(false);
-        if (error.response.data.message) {
-          dispatch(
-            alertMessage({
-              message: error.response.data.message,
-              type: "error",
-              open: true,
-            })
-          );
-        }
-      });
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const user = await apis.loginUser({ username, password });
+      dispatch(setUser(user));
+      navigate(urlParams.get("next") ?? "/");
+    } catch (error) {
+      let message = "Error logging in!!";
+      if (error instanceof HttpBadRequestError) {
+        message = error.data.message;
+      }
+      dispatch(
+        alertMessage({
+          message: message,
+          type: "error",
+          open: true,
+        })
+      );
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -103,10 +90,10 @@ const Login = () => {
               <TextField
                 required
                 fullWidth
-                label="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
+                label="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete="username"
                 autoFocus
                 disabled={loading}
               />
@@ -131,7 +118,10 @@ const Login = () => {
               </Button>
             </Box>
             <Typography variant="body1" sx={{ mt: 2, textAlign: "left" }}>
-              Not a member? <Link to="/signup">Signup now</Link>
+              Not a member?{" "}
+              <Link style={{ color: "text.primary" }} to={`/signup/?${urlParams}`}>
+                Signup now
+              </Link>
             </Typography>
           </Box>
         </Grid>

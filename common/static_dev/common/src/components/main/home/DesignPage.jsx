@@ -6,7 +6,7 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -158,7 +158,7 @@ const DesignPage = () => {
                       {design.user.username}
                     </Typography>
                   </Typography>
-                  <Typography variant="body2">Uploaded: <strong>{dayjs((formatLib.formatDateTime(design.created))).fromNow()}</strong></Typography>
+                  <Typography variant="body2">Uploaded: <strong>{dayjs(new Date(design.created)).fromNow()}</strong></Typography>
                   {/* <Rating
                     name="half-rating"
                     defaultValue={4.5}
@@ -327,15 +327,12 @@ const DesignPage = () => {
               </Grid>
             </Grid>
           </form>
-          <div className="">
-            <Typography variant="h6" className="mb-4">
-              More like this
-            </Typography>
-            <DesignCards
-              query={{ exclude_design: uid }}
-              fetchFunc={apis.listDesign}
-            />
-          </div>
+          <DesignCards
+            key={uid}
+            heading="More like this"
+            query={{ exclude_design: uid }}
+            fetchFunc={apis.listDesign}
+          />
           <Dialog open={open} onClose={() => setOpen(false)}>
             <DialogTitle>Are you sure you want to delete this?</DialogTitle>
             <DialogActions>

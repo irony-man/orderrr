@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
@@ -18,15 +18,50 @@ import MailIcon from "@mui/icons-material/Mail";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Logout from "../Profile/Logout";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 
 const DrawerComp = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const user = useSelector((state) => state.user);
-  const icons = [
-    <><MailIcon /></>,
-    <><ShoppingCartIcon /></>,
-    <><FavoriteIcon /></>,
-    <><AccountCircle /></>,
+
+  const links = [
+    {
+      text: "Messages",
+      icon: (
+        <>
+          <MailIcon />
+        </>
+      ),
+      link: "/messages",
+    },
+    {
+      text: "Cart",
+      icon: (
+        <>
+          <ShoppingCartIcon />
+        </>
+      ),
+      link: "/cart",
+      badge: user.cart_length,
+    },
+    {
+      text: "Wishlist",
+      icon: (
+        <>
+          <FavoriteIcon />
+        </>
+      ),
+      link: "/wishlist",
+    },
+    {
+      text: "Profile",
+      icon: (
+        <>
+          <AccountCircle />
+        </>
+      ),
+      link: "/profile",
+    },
   ];
 
   return (
@@ -44,29 +79,50 @@ const DrawerComp = () => {
           onKeyDown={() => setOpenDrawer(false)}
         >
           <List>
-            {["Messages", "Cart", "Wishlist", "Profile"].map((text, index) => (
-              <ListItem component={Link} button to={`/${text}`} key={text}>
-                <ListItemIcon sx={{ color: "text.primary" }}>
-                  {text === "Cart" ? (
-                    <Badge color="secondary" badgeContent={user.cart_length}>
-                      {icons[index]}
-                    </Badge>
-                  ) : (
-                    <>{icons[index]}</>
-                  )}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ color: "text.primary" }} />
-              </ListItem>
-            ))}
-            {user.uid?<ListItem>
+            {user.is_staff && <ListItem
+              component={Link}
+              to="/odr-adm/"
+              target="_blank"
+            >
               <ListItemIcon sx={{ color: "text.primary" }}>
-                <LogoutIcon />
+                <SupervisorAccountIcon />
               </ListItemIcon>
               <ListItemText
-                primary={<Logout />}
+                primary="Admin"
                 sx={{ color: "text.primary" }}
               />
-            </ListItem>:<></>}
+            </ListItem>}
+            {links.map((l) => (
+              <ListItem
+                component={Link}
+                to={l.link}
+                key={l.link}
+                target={l.target}
+              >
+                <ListItemIcon sx={{ color: "text.primary" }}>
+                  <Badge color="secondary" badgeContent={l.badge}>
+                    {l.icon}
+                  </Badge>
+                </ListItemIcon>
+                <ListItemText
+                  primary={l.text}
+                  sx={{ color: "text.primary" }}
+                />
+              </ListItem>
+            ))}
+            {user.uid ? (
+              <ListItem>
+                <ListItemIcon sx={{ color: "text.primary" }}>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={<Logout />}
+                  sx={{ color: "text.primary" }}
+                />
+              </ListItem>
+            ) : (
+              <></>
+            )}
           </List>
         </Box>
       </SwipeableDrawer>

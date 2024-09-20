@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import {
   CircularProgress,
@@ -50,7 +49,7 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
             {design.user.username}
           </Typography>
         }
-        subheader={dayjs((formatLib.formatDateTime(design.created))).fromNow()}
+        subheader={dayjs(new Date(design.created)).fromNow()}
       />
       <Link to={`/design/${design.uid}`} style={{ textDecoration: "none" }}>
         <CardMedia

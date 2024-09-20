@@ -44,6 +44,11 @@ class SerializedRelationField(serializers.Field):
         return self.repr_serializer(instance=value, context=self.context).data
 
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -56,6 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username")
     email = serializers.CharField(source="user.email")
+    is_staff = serializers.BooleanField(source="user.is_staff", read_only=True)
     raw_password = serializers.CharField(write_only=True, required=False)
     choices = serializers.SerializerMethodField()
     cart_length = serializers.SerializerMethodField()
@@ -75,16 +81,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "updated",
             "cart_length",
             "choices",
+            "is_staff",
             "raw_password",
         ]
-
-    def validate(self, attrs):
-        if "request" in self.context:
-            user_instance = self.context["request"].user
-            user = User(**attrs.get("user"))
-            if user_instance.username != user.username:
-                user.validate_unique()
-        return super(UserProfileSerializer, self).validate(attrs)
 
     def get_cart_length(self, instance):
         return instance.user.cart_set.count()
@@ -102,6 +101,23 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "design_type": serialize(DesignType),
         }
         return choices
+
+    def validate(self, attrs):
+        if "request" in self.context:
+            user_instance = self.context["request"].user
+            user = User(**attrs.get("user"))
+            if user_instance.username != user.username:
+                user.validate_unique()
+        return super(UserProfileSerializer, self).validate(attrs)
+
+    def create(self, validated_data):
+        user = User(**validated_data.pop("user"))
+        user.set_password(raw_password=validated_data.pop("raw_password"))
+        instance = UserProfile(**validated_data)
+        instance.user = user
+        user.save()
+        instance.save()
+        return instance
 
     def update(self, instance, validated_data):
         if "request" in self.context:

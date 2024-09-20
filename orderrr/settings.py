@@ -179,6 +179,10 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "global_static"),)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+LOGIN_URL = reverse_lazy("home")
+# LOGIN_REDIRECT_URL = reverse_lazy("login")
+# LOGOUT_URL = reverse_lazy("logout")
+
 # Django Vite
 DJANGO_VITE_ASSETS_PATH = BASE_DIR / "common" / "static" / "common"
 DJANGO_VITE_DEV_MODE = False

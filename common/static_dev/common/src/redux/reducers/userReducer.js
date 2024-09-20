@@ -26,7 +26,7 @@ export const userReducer = (state = initialState, { type, payload }) => {
   case ActionTypes.THEME:
     return { ...state, theme: payload };
   case ActionTypes.REMOVE_USER:
-    return { ...initialState, theme: state.theme };
+    return { ...initialState };
   default:
     return state;
   }

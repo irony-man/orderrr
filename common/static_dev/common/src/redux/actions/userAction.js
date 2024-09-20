@@ -6,6 +6,7 @@ import apis from "./apis";
 
 export const setUser = (user) => {
   return (dispatch) => {
+    localStorage.setItem('isLogged', user.uid !== null);
     dispatch({
       type: ActionTypes.USER,
       payload: {...user, is_logged: true},
@@ -15,17 +16,21 @@ export const setUser = (user) => {
 
 export const userLogged = () => {
   return async (dispatch) => {
-    dispatch({
-      type: ActionTypes.LOADING,
-      payload: true,
-    });
-    const user = await apis.getUser();
-    dispatch(setUser(user));
-    localStorage.setItem('isLogged', true);
-    dispatch({
-      type: ActionTypes.LOADING,
-      payload: false,
-    });
+    try {
+      dispatch({
+        type: ActionTypes.LOADING,
+        payload: true,
+      });
+      const user = await apis.getUser();
+      dispatch(setUser(user));
+      dispatch({
+        type: ActionTypes.LOADING,
+        payload: false,
+      });
+    } catch (error) {
+      console.error(error);
+      localStorage.setItem('isLogged', false);
+    }
   };
 };
 
@@ -118,7 +123,30 @@ export const changeTheme = (theme) => {
 };
 
 export const removeUser = () => {
-  return {
-    type: ActionTypes.REMOVE_USER,
+  return async (dispatch) => {
+    try {
+      const response = await apis.logoutUser();
+      localStorage.setItem('isLogged', false);
+      dispatch({
+        type: ActionTypes.REMOVE_USER
+      });
+      dispatch({
+        type: ActionTypes.ALERT,
+        payload: {
+          message: response.message,
+          type: "success",
+          open: true
+        }
+      });
+    } catch(error) {
+      dispatch({
+        type: ActionTypes.ALERT,
+        payload: {
+          message: "Error logging out!!",
+          type: "error",
+          open: true
+        }
+      });
+    }
   };
 };

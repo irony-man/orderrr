@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { alertMessage } from "../../redux/actions/alertsAction";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import {
   Box,
-  CircularProgress,
-  Paper,
   Grid,
   Typography,
   TextField,
   Button,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import apis from "../../redux/actions/apis";
+import { HttpBadRequestError } from "../../redux/network";
 
 const useStyles = makeStyles({
   bgimage: {
@@ -25,44 +24,45 @@ const useStyles = makeStyles({
 });
 
 const Signup = () => {
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
   const classes = useStyles();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    axios
-      .post("/signup", { username, email, password })
-      .then(function (response) {
-        setLoading(false);
-        if (response.status === 201) {
-          dispatch(
-            alertMessage({
-              message: response.data.message,
-              type: "success",
-              open: true,
-            })
-          );
-          navigate("/login");
-        }
-      })
-      .catch(function (error) {
-        setLoading(false);
-        if (error.response.status) {
-          dispatch(
-            alertMessage({
-              message: error.response.data.message,
-              type: "error",
-              open: true,
-            })
-          );
-        }
-      });
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      setErrors({});
+      await apis.createUser({ username, raw_password: password, email });
+      dispatch(
+        alertMessage({
+          message: "User created!!",
+          type: "success",
+          open: true,
+        })
+      );
+      navigate(`/login/?${urlParams}`);
+    } catch (error) {
+      if (error instanceof HttpBadRequestError) {
+        setErrors(error.data);
+      }
+      dispatch(
+        alertMessage({
+          message: "Error creating user!!",
+          type: "error",
+          open: true,
+        })
+      );
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -108,6 +108,8 @@ const Signup = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={errors.email}
+                helperText={errors.email}
               />
               <TextField
                 label="User Name"
@@ -117,6 +119,8 @@ const Signup = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 fullWidth
+                error={errors.username}
+                helperText={errors.username}
               />
               <TextField
                 required
@@ -126,6 +130,8 @@ const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 label="Password"
                 type="password"
+                error={errors.raw_password}
+                helperText={errors.raw_password}
               />
               <Button
                 type="submit"

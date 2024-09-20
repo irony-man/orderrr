@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch } from "react-redux";
 import { addCart, addOrDeleteWishlist } from "../../redux/actions/userAction";
 import {
   CircularProgress,
+  Typography,
 } from "@mui/material";
 import DesignCard from "./DesignCard";
 
-const DesignCards = ({ query={}, fetchFunc }) => {
+const DesignCards = ({ query={}, heading="", fetchFunc }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -73,6 +74,10 @@ const DesignCards = ({ query={}, fetchFunc }) => {
       </div>
     ) : (
       <div>
+        {heading && designs.length ? <Typography sx={{ color: "text.primary" }} variant="h6" className="mb-4">
+          {heading}
+        </Typography> : <></>}
+
         <InfiniteScroll
           style={{ overflow: "hidden" }}
           dataLength={designs.length}

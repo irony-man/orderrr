@@ -14,7 +14,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { alertMessage } from "../../../../redux/actions/alertsAction";
 import DeleteIcon from "@mui/icons-material/Delete";
