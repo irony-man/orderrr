@@ -12,4 +12,4 @@ npm run build
 cd ../../../
 ./manage.py collectstatic --no-input
 ./manage.py migrate
-echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.create_superuser('shivam', '', '123'); from common.models import UserProfile; UserProfile.objects.create(user=user)"
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); user = User.objects.create_superuser('shivam', '', '123'); from common.models import UserProfile; UserProfile.objects.create(user=user)" | "python manage.py shell"
