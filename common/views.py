@@ -32,6 +32,7 @@ from common.models import (
     Card,
     Cart,
     Design,
+    DesignOrderInstance,
     Order,
     UserProfile,
     WishList,
@@ -48,6 +49,7 @@ from common.serializers import (
     UserSerializer,
     WishListSerializer,
 )
+from orderrr.settings import DISCOUNT_FEE, DISCOUNT_FEE_APPLICABLE_ON
 
 
 class AuthMixin:
@@ -153,7 +155,9 @@ class CartViewSet(AuthMixin, ModelViewSet):
         queryset = self.get_queryset()
         serialized_data = self.get_serializer(instance=queryset, many=True)
         item_total = sum([x.design.final_price for x in queryset])
-        delivery_charge = 40 if item_total < 500 else 0
+        delivery_charge = (
+            DISCOUNT_FEE if item_total < DISCOUNT_FEE_APPLICABLE_ON else 0
+        )
         return Response(
             dict(
                 items=serialized_data.data,
@@ -162,9 +166,36 @@ class CartViewSet(AuthMixin, ModelViewSet):
                     item_total=item_total,
                     delivery_charge=delivery_charge,
                     total_price=item_total + delivery_charge,
+                    delivery_text=f"Order items of more than ₹{DISCOUNT_FEE_APPLICABLE_ON} for free delivery!!",
                 ),
             )
         )
+
+    @action(methods=["POST"], detail=False)
+    def place(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        item_total = 0
+        design_order_instances = []
+        for cart in queryset:
+            design_order_instance = DesignOrderInstance(design=cart.design)
+            design_order_instance.save()
+            cart.delete()
+            design_order_instances.append(design_order_instance.id)
+            item_total = cart.design.final_price
+
+        delivery_fee = (
+            DISCOUNT_FEE if item_total < DISCOUNT_FEE_APPLICABLE_ON else 0
+        )
+        serializer = OrderSerializer(
+            data={
+                "design_order_instances_id": design_order_instances,
+                "delivery_fee": delivery_fee,
+                **request.data,
+            }
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=self.request.user)
+        return Response(serializer.data, status=201)
 
 
 class WishListViewSet(AuthMixin, ModelViewSet):

@@ -22,6 +22,10 @@ export default {
     const url = getUrl("cart/summary");
     return await getRequest(url);
   },
+  async placeOrder(formData) {
+    const url = getUrl("cart/place");
+    return await postRequest(url, formData);
+  },
   async logoutUser() {
     const url = "logout/";
     return await getRequest(url);

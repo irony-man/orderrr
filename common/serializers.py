@@ -11,6 +11,7 @@ from common.models import (
     Card,
     Cart,
     Design,
+    DesignOrderInstance,
     Order,
     UserProfile,
     WishList,
@@ -201,39 +202,20 @@ class DesignSerializer(serializers.ModelSerializer):
         return None
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    designs = DesignSerializer(many=True, read_only=True)
-    designs_id = serializers.PrimaryKeyRelatedField(
-        queryset=Design.objects.all(),
-        write_only=True,
-        many=True,
-    )
+class DesignOrderInstanceSerializer(serializers.ModelSerializer):
+    design = SerializedRelationField("uid", Design.objects, DesignSerializer)
 
     class Meta:
         model = Order
         fields = [
-            "user",
-            "designs",
-            "designs_id",
-            "price_paid",
+            "design",
             "discount",
+            "base_price",
+            "final_price",
             "uid",
             "created",
             "updated",
         ]
-
-    def create(self, validated_data):
-        designs = validated_data.pop("designs_id", [])
-        instance = Order.objects.create(**validated_data)
-        instance.designs.add(*designs)
-
-        return instance
-
-    def update(self, instance, validated_data):
-        designs = validated_data.pop("designs_id", [])
-        instance.documents.set(designs)
-
-        return super(OrderSerializer, self).update(instance, validated_data)
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -294,3 +276,54 @@ class AddressSerializer(CountryFieldMixin, serializers.ModelSerializer):
         instance = Address(**attrs)
         instance.clean()
         return super(AddressSerializer, self).validate(attrs)
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    design_order_instances = DesignOrderInstanceSerializer(
+        many=True, read_only=True
+    )
+    design_order_instances_id = serializers.PrimaryKeyRelatedField(
+        queryset=DesignOrderInstance.objects.all(),
+        write_only=True,
+        many=True,
+    )
+    address = SerializedRelationField(
+        "uid", Address.objects, AddressSerializer
+    )
+    card = SerializedRelationField("uid", Card.objects, CardSerializer)
+
+    class Meta:
+        model = Order
+        fields = [
+            "user",
+            "design_order_instances",
+            "design_order_instances_id",
+            "address",
+            "card",
+            "discount",
+            "delivery_fee",
+            "base_price",
+            "final_price",
+            "price_paid",
+            "uid",
+            "created",
+            "updated",
+        ]
+
+    def create(self, validated_data):
+        design_order_instances = validated_data.pop(
+            "design_order_instances_id", []
+        )
+        instance = Order.objects.create(**validated_data)
+        instance.design_order_instances.add(*design_order_instances)
+
+        return instance
+
+    def update(self, instance, validated_data):
+        design_order_instances = validated_data.pop(
+            "design_order_instances_id", []
+        )
+        instance.design_order_instances.set(design_order_instances)
+
+        return super(OrderSerializer, self).update(instance, validated_data)

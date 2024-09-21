@@ -46,10 +46,14 @@ a:hover {
   border: 2px solid;
 }
 
-.profile-designs, .profile-img {
+.profile-designs, .profile-img, .design-img-small {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+}
+
+.design-img-small {
+  max-width: 100px;
 }
 
 .profile-img {

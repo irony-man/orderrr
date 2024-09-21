@@ -1,21 +1,7 @@
 # Standard Library
 import uuid
 
-import requests
-from django.core.exceptions import ValidationError
-from django.core.validators import MinLengthValidator
-from django.db.models import (
-    CharField,
-    DateTimeField,
-    FloatField,
-    IntegerField,
-    JSONField,
-    Model,
-    TextField,
-    UUIDField,
-)
-from django_countries.fields import CountryField
-from loguru import logger
+from django.db.models import DateTimeField, Model, UUIDField
 
 
 class CreateUpdate(Model):

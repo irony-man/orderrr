@@ -21,7 +21,6 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-
 const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
   return (
     <Card>
@@ -89,42 +88,49 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
         </div>
 
         {!design.is_yours ? (
-          <div>
-            <IconButton sx={{ color: "text.primary" }} onClick={wishlistFunc}>
-              {design.wishlistLoading ? (
-                <CircularProgress size={20} />
-              ) : (
-                <Tooltip
-                  title={
-                    design.cart_uid
-                      ? "Remove from wishlist!!"
-                      : "Add to wishlist!!"
-                  }
-                >
-                  {design.wishlist_uid ? (
-                    <FavoriteIcon />
-                  ) : (
-                    <FavoriteBorderOutlinedIcon />
-                  )}
-                </Tooltip>
-              )}
-            </IconButton>
-            <IconButton sx={{ color: "text.primary" }} onClick={cartFunc}>
-              {design.cartLoading ? (
-                <CircularProgress size={20} />
-              ) : (
-                <Tooltip
-                  title={design.cart_uid ? "Go to cart!!" : "Add to cart!!"}
-                >
-                  {design.cart_uid ? (
-                    <ShoppingCartOutlinedIcon />
-                  ) : (
-                    <AddShoppingCartIcon />
-                  )}
-                </Tooltip>
-              )}
-            </IconButton>
-          </div>
+          wishlistFunc ? (
+            <div>
+              <IconButton
+                sx={{ color: "text.primary" }}
+                onClick={wishlistFunc}
+              >
+                {design.wishlistLoading ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <Tooltip
+                    title={
+                      design.cart_uid
+                        ? "Remove from wishlist!!"
+                        : "Add to wishlist!!"
+                    }
+                  >
+                    {design.wishlist_uid ? (
+                      <FavoriteIcon />
+                    ) : (
+                      <FavoriteBorderOutlinedIcon />
+                    )}
+                  </Tooltip>
+                )}
+              </IconButton>
+              <IconButton sx={{ color: "text.primary" }} onClick={cartFunc}>
+                {design.cartLoading ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <Tooltip
+                    title={design.cart_uid ? "Go to cart!!" : "Add to cart!!"}
+                  >
+                    {design.cart_uid ? (
+                      <ShoppingCartOutlinedIcon />
+                    ) : (
+                      <AddShoppingCartIcon />
+                    )}
+                  </Tooltip>
+                )}
+              </IconButton>
+            </div>
+          ) : (
+            <></>
+          )
         ) : (
           <IconButton
             sx={{ color: "text.primary", ":hover": { color: "text.primary" } }}

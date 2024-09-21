@@ -16,12 +16,17 @@ export const userReducer = (state = initialState, { type, payload }) => {
   case ActionTypes.ADD_CART:
     return {
       ...state,
-      cart_length: state.cart_length + 1
+      cart_length: state.cart_length + 1,
     };
   case ActionTypes.REMOVE_CART:
     return {
       ...state,
-      cart_length: state.cart_length - 1
+      cart_length: state.cart_length - 1,
+    };
+  case ActionTypes.RESET_CART:
+    return {
+      ...state,
+      cart_length: 0,
     };
   case ActionTypes.THEME:
     return { ...state, theme: payload };

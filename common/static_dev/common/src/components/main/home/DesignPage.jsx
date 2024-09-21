@@ -234,7 +234,7 @@ const DesignPage = () => {
               >
                 <div className="row g-3 align-items-center">
                   <div className="col-12">
-                    <Typography variant="h5" noWrap>
+                    <Typography variant="h6">
                       {design.title}
                     </Typography>
                   </div>

@@ -1,10 +1,8 @@
-import { Grid, Typography } from '@mui/material';
-
-export default function GapLine({heading, value}) {
+export default function GapLine({heading, value, width= 6, alignValue = 'left'}) {
   return (
-    <Grid container justifyContent={"space-between"} m={"15px 0"}>
-      <Typography>{heading}</Typography>
-      <Typography>{value}</Typography>
-    </Grid>
+    <div className="row my-3 justify-content-space-between">
+      <div className={`col-${width}`}>{heading}</div>
+      <div className={`col text-${alignValue}`}>{value}</div>
+    </div>
   );
 }

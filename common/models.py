@@ -61,6 +61,7 @@ from common.abstract_models import CreateUpdate
 from common.custom_fields import PercentField, PositiveFloatField
 from common.model_helpers import random_pin
 from common.taxonomies import DesignType
+from orderrr.settings import DISCOUNT_FEE, DISCOUNT_FEE_APPLICABLE_ON
 
 
 class UserProfile(CreateUpdate):
@@ -110,19 +111,25 @@ class Design(CreateUpdate):
         return self.base_price - (self.base_price * self.discount)
 
 
-class Order(CreateUpdate):
-    user = ForeignKey(User, on_delete=PROTECT)
-    designs = ManyToManyField(Design)
-    price_paid = PositiveFloatField()
+class DesignOrderInstance(CreateUpdate):
+    design = ForeignKey(Design, on_delete=PROTECT)
+    base_price = PositiveFloatField()
     discount = PercentField(default=0)
+    quantity = PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f"{self.price_paid} / {self.user}"
+        return f"{self.design} / {self.base_price}"
 
-    # def clean(self):
-    #     for design in self.designs:
-    #         if self.user == design.user:
-    #             raise ValidationError({"design": "User can't order it's own design."})
+    @property
+    def final_price(self):
+        return self.base_price - (self.base_price * self.discount)
+
+    def save(self, **kwargs):
+        if not self.base_price:
+            self.base_price = self.design.base_price
+        if not self.discount:
+            self.discount = self.design.discount
+        super(DesignOrderInstance, self).save(**kwargs)
 
 
 class Cart(CreateUpdate):
@@ -162,7 +169,7 @@ class WishList(CreateUpdate):
 class Card(CreateUpdate):
     user = ForeignKey(to=User, on_delete=PROTECT)
     name = CharField(max_length=512)
-    card_number = CharField(max_length=16)
+    card_number = CharField(max_length=16, validators=[MinLengthValidator(16)])
     name_on_card = CharField(max_length=512)
     card_expiry = DateField()
 
@@ -208,3 +215,45 @@ class Address(CreateUpdate):
         self.city = postal_data["county_name"]
         self.state = postal_data["state_name"]
         super(Address, self).save(**kwargs)
+
+
+class Order(CreateUpdate):
+    user = ForeignKey(User, on_delete=PROTECT)
+    design_order_instances = ManyToManyField(DesignOrderInstance)
+    discount = PercentField(default=0)
+    delivery_fee = PositiveFloatField(default=DISCOUNT_FEE)
+    address = ForeignKey(Address, on_delete=PROTECT)
+    card = ForeignKey(Card, on_delete=PROTECT)
+
+    def __str__(self):
+        return f"{self.delivery_fee} / {self.user}"
+
+    @property
+    def base_price(self):
+        if self.id and self.design_order_instances.exists():
+            return sum(
+                x.final_price for x in self.design_order_instances.all()
+            )
+        return 0
+
+    @property
+    def final_price(self):
+        return self.base_price - (self.base_price * self.discount)
+
+    @property
+    def price_paid(self):
+        return self.final_price + self.delivery_fee
+
+    # def clean(self):
+    #     for design_order in self.design_order_instances.all():
+    #         if self.user == design_order.design.user:
+    #             raise ValidationError({"design": "User can't order it's own design."})
+
+    def save(self, **kwargs):
+        if not self.delivery_fee:
+            self.delivery_fee = (
+                DISCOUNT_FEE
+                if self.final_price < DISCOUNT_FEE_APPLICABLE_ON
+                else 0
+            )
+        super(Order, self).save(**kwargs)

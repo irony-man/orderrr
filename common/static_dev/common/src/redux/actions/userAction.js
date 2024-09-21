@@ -77,6 +77,14 @@ export const removeCart = () => {
   };
 };
 
+export const resetCart = () => {
+  return (dispatch) => {
+    dispatch({
+      type: ActionTypes.RESET_CART,
+    });
+  };
+};
+
 export const addOrDeleteWishlist = (design) => {
   return async (dispatch) => {
     try {
