@@ -99,7 +99,7 @@ export default function PlaceOrder() {
   };
 
   const completeOrder = () => {
-    navigate("/");
+    navigate("/orders");
   };
 
   const CardPage = ({ card }) => (
@@ -152,7 +152,7 @@ export default function PlaceOrder() {
                   className="py-2 mt-4 px-4"
                   onClick={completeOrder}
                 >
-                  Complete Orderrr
+                  Go to Orderrrs
                 </Button>
               </Paper>
             ) : (

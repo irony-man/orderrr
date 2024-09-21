@@ -15,21 +15,39 @@ const ProfileEdit = () => {
     "/profile/edit/billing",
     "/profile/edit/address",
   ];
-  const comp = [<><BasicEdit /></>, <><BillingEdit /></>, <><AddressEdit /></>];
+  const comp = [
+    <>
+      <BasicEdit />
+    </>,
+    <>
+      <BillingEdit />
+    </>,
+    <>
+      <AddressEdit />
+    </>,
+  ];
   const [value, setValue] = useState(links.indexOf(window.location.pathname));
-  const icons = [<><InfoIcon /></>, <><AccountBalanceIcon /></>, <><HomeIcon /></>];
+  const icons = [
+    <>
+      <InfoIcon />
+    </>,
+    <>
+      <AccountBalanceIcon />
+    </>,
+    <>
+      <HomeIcon />
+    </>,
+  ];
   function handleChange(e, v) {
     setValue(v);
   }
   return (
     <>
-      <Box className="container text-center" sx={{ color: "text.primary",
-        bgcolor: "background.paper", }}>
-        <Tabs
-          centered
-          value={value}
-          onChange={handleChange}
-        >
+      <Box
+        className="container text-center"
+        sx={{ color: "text.primary", bgcolor: "background.paper" }}
+      >
+        <Tabs centered value={value} onChange={handleChange}>
           {["Basic Info", "Billing", "Address"].map((text, index) => (
             <Tab
               key={index}
@@ -43,9 +61,7 @@ const ProfileEdit = () => {
             />
           ))}
         </Tabs>
-        <Box sx={{py: 5}}>
-          {comp[value] || <NotFound />}
-        </Box>
+        <Box sx={{ py: 5 }}>{comp[value] || <NotFound />}</Box>
       </Box>
     </>
   );

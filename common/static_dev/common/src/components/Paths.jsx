@@ -17,7 +17,7 @@ import NotFound from "./main/NotFound.jsx";
 import DesignPage from "./main/home/DesignPage.jsx";
 import Messages from "./main/home/Messages.jsx";
 import { Box } from "@mui/material";
-// import ProfileOrders from "./main/Profile/ProfileOrders";
+import ProfileOrders from "./main/Profile/ProfileOrders";
 import PlaceOrder from "./main/home/PlaceOrder";
 
 import { useLocation } from 'react-router-dom';
@@ -61,7 +61,7 @@ function Paths() {
             <Route exact path="/profile/edit" element={<ProfileEdit />} />
             <Route exact path="/profile/edit/:id" element={<ProfileEdit />} />
             <Route exact path="/place" element={<PlaceOrder />} />
-            {/* <Route exact path="/profile/orders" element={<ProfileOrders />} /> */}
+            <Route exact path="/orders" element={<ProfileOrders />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

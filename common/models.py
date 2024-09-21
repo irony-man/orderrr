@@ -250,7 +250,7 @@ class Order(CreateUpdate):
     #             raise ValidationError({"design": "User can't order it's own design."})
 
     def save(self, **kwargs):
-        if not self.delivery_fee:
+        if self.delivery_fee is None:
             self.delivery_fee = (
                 DISCOUNT_FEE
                 if self.final_price < DISCOUNT_FEE_APPLICABLE_ON
