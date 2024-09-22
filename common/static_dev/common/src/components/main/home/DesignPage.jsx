@@ -215,9 +215,9 @@ const DesignPage = () => {
                           design.cart_uid ? (
                             <ShoppingCartOutlined />
                           ) : design.stock ? (
-                            <ProductionQuantityLimitsIcon />
-                          ) : (
                             <AddShoppingCartIcon />
+                          ) : (
+                            <ProductionQuantityLimitsIcon />
                           )
                         }
                         onClick={addToCart}
