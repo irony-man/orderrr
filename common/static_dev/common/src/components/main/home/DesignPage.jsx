@@ -32,6 +32,7 @@ import { HttpNotFound } from "../../../redux/network";
 import { alertMessage } from "../../../redux/actions/alertsAction";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Markdown from "react-markdown";
 
 dayjs.extend(relativeTime);
 
@@ -286,16 +287,9 @@ const DesignPage = () => {
                     </Typography>
                   </div>
                   <div className="col-12">
-                    <Typography
-                      className="cart-items"
-                      variant="body1"
-                      sx={{
-                        fontWeight: "light",
-                        color: "text.primary",
-                      }}
-                    >
+                    <Markdown className="cart-items fw-light">
                       {design.description}
-                    </Typography>
+                    </Markdown>
                   </div>
                 </div>
 

@@ -56,7 +56,7 @@ const BasicEdit = () => {
           if (loggedUser.uid) {
             setProfile({
               ...loggedUser,
-              imageUrl: loggedUser.display_picture_url,
+              imageUrl: loggedUser.default_display_picture ? '' : loggedUser.display_picture_url,
             });
           }
         } catch (error) {

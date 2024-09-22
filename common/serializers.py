@@ -73,6 +73,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "full_name",
             "username",
             "email",
+            "default_display_picture",
             "display_picture",
             "display_picture_url",
             "email_verified",

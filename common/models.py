@@ -73,6 +73,10 @@ class UserProfile(CreateUpdate):
         return self.user.get_full_name()
 
     @property
+    def default_display_picture(self):
+        return self.display_picture == None or self.display_picture == ""
+
+    @property
     def display_picture_url(self):
         return self.display_picture_response.get("url", None)
 
