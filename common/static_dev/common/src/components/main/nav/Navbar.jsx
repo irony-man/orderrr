@@ -130,7 +130,7 @@ const Navbar = () => {
                 ))}
               </Grid>
               <IconButton onClick={handleOpenUserMenu}>
-                <Avatar src={user.picture} sx={{ width: 30, height: 30 }} />
+                <Avatar src={user.display_picture_url} sx={{ width: 30, height: 30 }} />
               </IconButton>
               <Menu
                 sx={{ mt: "45px" }}
