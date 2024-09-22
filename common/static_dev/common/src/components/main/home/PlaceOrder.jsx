@@ -168,7 +168,7 @@ export default function PlaceOrder() {
                               <div className="col-3">
                                 <img
                                   className="design-img-small"
-                                  src={design.image}
+                                  src={design.image_thumbnail_url}
                                   alt={design.title}
                                 />
                               </div>

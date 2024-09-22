@@ -146,7 +146,7 @@ const Cart = () => {
                           >
                             <img
                               className="profile-designs"
-                              src={design.image}
+                              src={design.image_thumbnail_url}
                               alt={design.title}
                             />
                           </Grid>
