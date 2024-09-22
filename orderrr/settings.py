@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     # Third Party
     "rest_framework",
-    # "easy_thumbnails",
+    "cloudinary",
     # "phonenumber_field",
     # "django_filters",
     "django_countries",
@@ -235,6 +235,18 @@ BASE_URL = os.getenv("ODR_BASE_URL")
 MEDIAFILES_LOCATION = "media"
 
 REQUESTS_TIMEOUT = 10
+
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name=os.getenv("ODR_CLOUDINARY_NAME"),
+    api_key=os.getenv("ODR_CLOUDINARY_KEY"),
+    api_secret=os.getenv("ODR_CLOUDINARY_SECRET"),
+)
+
+import cloudinary.api
+import cloudinary.uploader
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")

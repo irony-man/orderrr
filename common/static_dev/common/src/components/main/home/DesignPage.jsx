@@ -135,7 +135,7 @@ const DesignPage = () => {
                   className="design-img-container"
                   sx={{ bgcolor: "background.paper" }}
                 >
-                  <img src={design.image} alt={design.title} />
+                  <img src={design.image_url} alt={design.title} />
                 </Box>
                 <Grid
                   container

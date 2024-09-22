@@ -41,7 +41,7 @@ const BasicEdit = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [errors, setErrors] = useState({});
   const [profile, setProfile] = useState({
-    display_picture: "",
+    display_picture_file: "",
     raw_password: "",
     name: "",
     email: "",
@@ -56,7 +56,7 @@ const BasicEdit = () => {
           if (loggedUser.uid) {
             setProfile({
               ...loggedUser,
-              imageUrl: loggedUser.display_picture,
+              imageUrl: loggedUser.display_picture_url,
             });
           }
         } catch (error) {
@@ -92,7 +92,7 @@ const BasicEdit = () => {
     e.preventDefault();
     setProfile({
       ...profile,
-      display_picture: "",
+      display_picture_file: "",
       imageUrl: "",
     });
   };
@@ -115,7 +115,7 @@ const BasicEdit = () => {
       reader.onloadend = () => {
         setProfile({
           ...profile,
-          display_picture: e.target.files[0],
+          display_picture_file: e.target.files[0],
           imageUrl: reader.result,
         });
       };
@@ -131,10 +131,10 @@ const BasicEdit = () => {
       Object.keys(profile).forEach((key) => {
         return formData.append(key, profile[key] ?? '');
       });
-      if (profile.display_picture?.name) {
-        formData.append("display_picture", profile.display_picture, profile.display_picture?.name);
+      if (profile.display_picture_file?.name) {
+        formData.append("display_picture", profile.display_picture_file, profile.display_picture_file?.name);
       } else {
-        if (profile.display_picture) {
+        if (profile.imageUrl) {
           formData.delete("display_picture");
         } else {
           formData.append("display_picture", "");
@@ -200,7 +200,7 @@ const BasicEdit = () => {
               )}
               <Typography className="mt-3" variant="h6">
                 Upload Picture
-                {profile.display_picture ? (
+                {profile.imageUrl ? (
                   <IconButton sx={{ color: "red" }} onClick={deletePicture}>
                     <DeleteIcon />
                   </IconButton>

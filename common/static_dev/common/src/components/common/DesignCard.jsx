@@ -27,7 +27,7 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
       <CardHeader
         avatar={
           <Avatar
-            src={design.user.display_picture}
+            src={design.user.display_picture_url}
             component={Link}
             to={`/profile/${design.user?.uid}`}
             sx={{
@@ -54,7 +54,7 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
         <CardMedia
           component="img"
           height="300"
-          image={design.image}
+          image={design.image_thumbnail_url}
           alt={design.title}
         />
         <CardContent>

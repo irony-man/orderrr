@@ -111,10 +111,12 @@ const ProfileHeader = () => {
           <Box component={Paper} sx={{ mb: 5 }}>
             <Grid container className="w-100 px-3 py-5 mx-auto" sx={{ maxWidth: "920px" }} justifyContent="center">
               <Grid textAlign={"center"} item md={6} sm={12}>
-                <img className="profile-img"
-                  src={profile.display_picture}
-                  alt="Profile"
-                />
+                <div className="profile-img-container">
+                  <img
+                    src={profile.display_picture_url}
+                    alt="Profile"
+                  />
+                </div>
                 <Tooltip title={profile.username || ""}>
                   <Typography variant="h5" noWrap sx={{ mt: 2 }}>
                     {profile.username}
@@ -191,11 +193,12 @@ const ProfileHeader = () => {
               {designs.map((design) => (
                 <Grid key={design.uid} lg={3} md={4} xs={6} item>
                   <Link to={`/design/${design.uid}`}>
-                    <img
-                      className="profile-designs"
-                      src={design.image}
-                      alt={design.title}
-                    />
+                    <div className="profile-designs">
+                      <img
+                        src={design.image_thumbnail_url}
+                        alt={design.title}
+                      />
+                    </div>
                   </Link>
                 </Grid>
               ))}

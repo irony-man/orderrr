@@ -9,7 +9,7 @@
 # from typing import Any, Callable, Collection, Dict, List, Optional
 
 import pgeocode
-import requests
+from cloudinary import uploader
 
 # import bcrypt
 # import pgeocode
@@ -24,42 +24,30 @@ from django.core.validators import (
 
 # from django.db import IntegrityError
 from django.db.models import (
-    CASCADE,
     PROTECT,
     BooleanField,
     CharField,
     DateField,
     DateTimeField,
-    EmailField,
-    F,
     FileField,
-    FloatField,
     ForeignKey,
-    GeneratedField,
     ImageField,
-    Index,
     IntegerField,
     JSONField,
     ManyToManyField,
-    Model,
     OneToOneField,
-    OuterRef,
     PositiveIntegerField,
-    Q,
-    QuerySet,
-    Subquery,
-    Sum,
     TextField,
-    UniqueConstraint,
-    URLField,
-    UUIDField,
 )
 from django_countries.fields import CountryField
-from loguru import logger
 
 from common.abstract_models import CreateUpdate
 from common.custom_fields import PercentField, PositiveFloatField
-from common.model_helpers import random_pin
+from common.model_helpers import (
+    default_image_response,
+    get_thumbnail_url,
+    random_pin,
+)
 from common.taxonomies import DesignType
 from orderrr.settings import DISCOUNT_FEE, DISCOUNT_FEE_APPLICABLE_ON
 
@@ -67,6 +55,9 @@ from orderrr.settings import DISCOUNT_FEE, DISCOUNT_FEE_APPLICABLE_ON
 class UserProfile(CreateUpdate):
     user = OneToOneField(to=User, on_delete=PROTECT)
     display_picture = ImageField(blank=True, null=True)
+    display_picture_response = JSONField(
+        default=default_image_response, blank=True, null=True
+    )
     email_otp = PositiveIntegerField(
         validators=[MaxValueValidator(999999), MinValueValidator(100000)],
         default=random_pin,
@@ -80,6 +71,34 @@ class UserProfile(CreateUpdate):
     @property
     def full_name(self):
         return self.user.get_full_name()
+
+    @property
+    def display_picture_url(self):
+        return self.display_picture_response.get("url", None)
+
+    def save(self, **kwargs):
+        if self.display_picture:
+            self.display_picture_response = uploader.upload(
+                file=self.display_picture,
+                transformation=[
+                    {
+                        "width": 200,
+                        "height": 200,
+                        "crop": "fill",
+                        "gravity": "face",
+                    }
+                ],
+                public_id=str(self.uid),
+                overwrite=True,
+                folder="Orderrr-v2/Users",
+            )
+        else:
+            if self.display_picture_response.get(
+                "public_id", None
+            ) != default_image_response().get("public_id", None):
+                uploader.destroy(public_id=f"Orderrr-v2/Users/{str(self.uid)}")
+            self.display_picture_response = default_image_response()
+        super(UserProfile, self).save(**kwargs)
 
     # def request_password_reset(self):
     #     now = timezone.now()
@@ -97,6 +116,7 @@ class Design(CreateUpdate):
     user = ForeignKey(User, on_delete=PROTECT)
     title = CharField(max_length=512)
     image = ImageField()
+    image_response = JSONField(default=dict, blank=True)
     base_price = PositiveFloatField()
     discount = PercentField(default=0)
     stock = PositiveIntegerField()
@@ -109,6 +129,28 @@ class Design(CreateUpdate):
     @property
     def final_price(self):
         return self.base_price - (self.base_price * self.discount)
+
+    @property
+    def image_url(self):
+        return self.image_response.get("url", None)
+
+    @property
+    def image_thumbnail_url(self):
+        return get_thumbnail_url(self.image_url)
+
+    def save(self, **kwargs):
+        if self.image:
+            self.image_response = uploader.upload(
+                file=self.image,
+                public_id=str(self.uid),
+                overwrite=True,
+                folder="Orderrr-v2/Designs",
+            )
+        else:
+            if public_id := self.image_response.get("public_id", None):
+                uploader.destroy(public_id=public_id)
+            self.image_response = dict()
+        super(Design, self).save(**kwargs)
 
 
 class DesignOrderInstance(CreateUpdate):

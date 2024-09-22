@@ -40,3 +40,4 @@ django-ipware==7.0.1
 whitenoise==6.7.0
 gunicorn==23.0.0
 uvicorn==0.30.6
+cloudinary==1.41.0

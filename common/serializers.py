@@ -74,8 +74,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "display_picture",
-            "email_otp",
-            "email_otp_sent",
+            "display_picture_url",
             "email_verified",
             "uid",
             "created",
@@ -85,6 +84,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "is_staff",
             "raw_password",
         ]
+        extra_kwargs = {"display_picture": {"write_only": True}}
 
     def get_cart_length(self, instance):
         return instance.user.cart_set.count()
@@ -145,7 +145,7 @@ class LiteUserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = [
-            "display_picture",
+            "display_picture_url",
             "username",
             "email",
             "uid",
@@ -164,6 +164,8 @@ class DesignSerializer(serializers.ModelSerializer):
             "user",
             "title",
             "image",
+            "image_url",
+            "image_thumbnail_url",
             "base_price",
             "final_price",
             "discount",
@@ -177,6 +179,7 @@ class DesignSerializer(serializers.ModelSerializer):
             "created",
             "updated",
         ]
+        extra_kwargs = {"image": {"write_only": True}}
 
     def get_is_yours(self, instance: Design):
         if "request" in self.context:

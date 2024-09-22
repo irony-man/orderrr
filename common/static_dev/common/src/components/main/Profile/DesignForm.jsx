@@ -36,7 +36,7 @@ const DesignForm = () => {
       try {
         setLoading(true);
         const response = await apis.getDesign(uid);
-        setDesign({...response, imageUrl: response.image});
+        setDesign({...response, imageUrl: response.image_url});
       } catch (error) {
         if(error instanceof HttpNotFound) {
           setDesign({...design, not_found: true});
@@ -49,7 +49,7 @@ const DesignForm = () => {
   }, [uid]);
   const handleImage = (e) => {
     if (e.target.files[0] === undefined) {
-      setDesign({...design, image: "", imageUrl: ""});
+      setDesign({...design, image_file: "", imageUrl: ""});
       document.getElementById("design-upload").value = null;
     } else if (e.target.files[0].size > 1024 * 1024) {
       dispatch(
@@ -59,13 +59,13 @@ const DesignForm = () => {
           open: true,
         })
       );
-      setDesign({...design, image: "", imageUrl: ""});
+      setDesign({...design, image_file: "", imageUrl: ""});
       document.getElementById("design-upload").value = null;
     } else {
       const reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       reader.onloadend = () => {
-        setDesign({...design, image: e.target.files[0], imageUrl: reader.result});
+        setDesign({...design, image_file: e.target.files[0], imageUrl: reader.result});
       };
     }
   };
@@ -79,8 +79,8 @@ const DesignForm = () => {
       Object.keys(design).forEach((key) => {
         return formData.append(key, design[key] ?? '');
       });
-      if (design.image?.name) {
-        formData.append("image", design.image, design.image?.name);
+      if (design.image_file?.name) {
+        formData.append("image", design.image_file, design.image_file?.name);
       } else {
         formData.delete("image");
       }
