@@ -158,7 +158,7 @@ const DesignPage = () => {
                       {design.user.username}
                     </Typography>
                   </Typography>
-                  <Typography variant="body2">Uploaded: <strong>{dayjs(new Date(design.created)).fromNow()}</strong></Typography>
+                  <Typography variant="body2">Uploaded: <strong>{dayjs(formatLib.formatDateTime(design.created)).fromNow()}</strong></Typography>
                   {/* <Rating
                     name="half-rating"
                     defaultValue={4.5}

@@ -48,7 +48,7 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
             {design.user.username}
           </Typography>
         }
-        subheader={dayjs(new Date(design.created)).fromNow()}
+        subheader={dayjs(formatLib.formatDateTime(design.created)).fromNow()}
       />
       <Link to={`/design/${design.uid}`} style={{ textDecoration: "none" }}>
         <CardMedia
