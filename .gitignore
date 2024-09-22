@@ -480,4 +480,4 @@ static
 # Duck DB files
 *.duck.db
 
-db.sqlite3
+*.sqlite3
