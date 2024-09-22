@@ -229,6 +229,13 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = ["user", "design", "uid", "created", "updated"]
 
+    def validate(self, attrs):
+        if "request" in self.context:
+            attrs["user"] = self.context["request"].user
+        instance = Cart(**attrs)
+        instance.clean()
+        return super(CartSerializer, self).validate(attrs)
+
 
 class WishListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -318,12 +325,13 @@ class OrderSerializer(serializers.ModelSerializer):
         design_order_instances = validated_data.pop(
             "design_order_instances_id", []
         )
-        instance = Order.objects.create(**validated_data)
+        instance = Order(**validated_data)
+        instance.save()
         instance.design_order_instances.add(*design_order_instances)
 
         return instance
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Order, validated_data):
         design_order_instances = validated_data.pop(
             "design_order_instances_id", []
         )

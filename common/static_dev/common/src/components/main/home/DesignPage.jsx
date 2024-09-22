@@ -12,6 +12,7 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlined from "@mui/icons-material/ShoppingCartOutlined";
+import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -68,7 +69,7 @@ const DesignPage = () => {
     } else {
       setCartLoading(true);
       const response = await dispatch(addCart(design.uid));
-      if (response) {
+      if (response.uid) {
         setDesign({ ...response.design });
       }
       setCartLoading(false);
@@ -158,7 +159,14 @@ const DesignPage = () => {
                       {design.user.username}
                     </Typography>
                   </Typography>
-                  <Typography variant="body2">Uploaded: <strong>{dayjs(formatLib.formatDateTime(design.created)).fromNow()}</strong></Typography>
+                  <Typography variant="body2">
+                    Uploaded:{" "}
+                    <strong>
+                      {dayjs(
+                        formatLib.formatDateTime(design.created)
+                      ).fromNow()}
+                    </strong>
+                  </Typography>
                   {/* <Rating
                     name="half-rating"
                     defaultValue={4.5}
@@ -205,6 +213,8 @@ const DesignPage = () => {
                         startIcon={
                           design.cart_uid ? (
                             <ShoppingCartOutlined />
+                          ) : design.stock ? (
+                            <ProductionQuantityLimitsIcon />
                           ) : (
                             <AddShoppingCartIcon />
                           )
@@ -213,11 +223,12 @@ const DesignPage = () => {
                         disabled={cartLoading}
                       >
                         {cartLoading
-                          ? "Adding"
+                          ? "Adding to Cart"
                           : design.cart_uid
-                            ? "Go"
-                            : "Add"}{" "}
-                        to Cart
+                            ? "Go to Cart"
+                            : design.stock
+                              ? "Add to Cart"
+                              : "Not enough stock"}
                       </Button>
                     </div>
                   </div>
@@ -234,9 +245,7 @@ const DesignPage = () => {
               >
                 <div className="row g-3 align-items-center">
                   <div className="col-12">
-                    <Typography variant="h6">
-                      {design.title}
-                    </Typography>
+                    <Typography variant="h6">{design.title}</Typography>
                   </div>
                   <div className="col d-flex align-items-end">
                     <Typography

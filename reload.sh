@@ -2,10 +2,10 @@
 set -o errexit
 
 pip install -r requirements.txt
-rm -rf common/migrations
-rm -rf db.sqlite3
-./manage.py makemigrations common
-./manage.py migrate
+# rm -rf common/migrations
+# rm -rf db.sqlite3
+# ./manage.py makemigrations common
+# ./manage.py migrate
 cd common/static_dev/common
 npm i --legacy-peer-deps
 npm run build

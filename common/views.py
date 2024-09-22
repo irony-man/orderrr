@@ -13,8 +13,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from loguru import logger
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 
-# from rest_framework.exceptions import ValidationError
 # from rest_framework.filters import OrderingFilter, SearchFilter
 # from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
@@ -177,7 +177,14 @@ class CartViewSet(AuthMixin, ModelViewSet):
         item_total = 0
         design_order_instances = []
         for cart in queryset:
-            design_order_instance = DesignOrderInstance(design=cart.design)
+            design: Design = cart.design
+            design_order_instance = DesignOrderInstance(design=design)
+            if design.stock < design_order_instance.quantity:
+                raise ValidationError(
+                    {"design": f"Not enough stock for design {design.title}."}
+                )
+            design.stock -= design_order_instance.quantity
+            design.save()
             design_order_instance.save()
             cart.delete()
             design_order_instances.append(design_order_instance.id)

@@ -177,6 +177,7 @@ class DesignOrderInstance(CreateUpdate):
 class Cart(CreateUpdate):
     user = ForeignKey(User, on_delete=PROTECT)
     design = ForeignKey(Design, on_delete=PROTECT)
+    quantity = PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.design} / {self.user}"
@@ -188,6 +189,10 @@ class Cart(CreateUpdate):
         if self.design.user == self.user:
             raise ValidationError(
                 {"design": "You can't add your own design to cart."}
+            )
+        if self.quantity > self.design.stock:
+            raise ValidationError(
+                {"design": f"Not enough stock for design {self.design.title}."}
             )
 
 

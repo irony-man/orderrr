@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import formatLib from "../../utils/formatLib";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -117,12 +118,20 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
                   <CircularProgress size={20} />
                 ) : (
                   <Tooltip
-                    title={design.cart_uid ? "Go to cart!!" : "Add to cart!!"}
+                    title={
+                      design.cart_uid
+                        ? "Go to cart!!"
+                        : design.stock
+                          ? "Add to cart!!"
+                          : "Not enough stock!!"
+                    }
                   >
                     {design.cart_uid ? (
                       <ShoppingCartOutlinedIcon />
-                    ) : (
+                    ) : design.stock ? (
                       <AddShoppingCartIcon />
+                    ) : (
+                      <ProductionQuantityLimitsIcon />
                     )}
                   </Tooltip>
                 )}

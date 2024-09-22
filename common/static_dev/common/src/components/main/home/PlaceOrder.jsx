@@ -341,6 +341,7 @@ export default function PlaceOrder() {
                       )}
                     </div>
                     <div className="text-center">
+                      <div className="text-danger mb-3">{errors.design}</div>
                       <Button
                         variant="contained"
                         className="py-2 px-4"

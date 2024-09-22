@@ -65,6 +65,7 @@ export const addCart = (uid) => {
           open: true
         }
       });
+      return {design: {}};
     }
   };
 };
