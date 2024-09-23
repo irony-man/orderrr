@@ -21,6 +21,7 @@ import ProfileOrders from "./main/Profile/ProfileOrders";
 import PlaceOrder from "./main/home/PlaceOrder";
 
 import { useLocation } from 'react-router-dom';
+import DesignsPage from "./main/home/DesignsPage.jsx";
 
 
 const ScrollToTop = () => {
@@ -43,6 +44,7 @@ function Paths() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/designs" element={<DesignsPage />} />
           <Route exact path="/design/:uid" element={<DesignPage />} />
           <Route element={<LoginRoute />}>
             <Route exact path="/login" element={<Login />} />

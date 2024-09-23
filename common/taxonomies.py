@@ -18,3 +18,10 @@ class DesignType(TextChoices):
     ILLUSTRATION = "ILLUSTRATION", _("Illustration")
     NFT = "NFT", _("NFT")
     OTHER = "OTHER", _("Other")
+
+
+class DesignOrderingType(TextChoices):
+    BASE_PRICE_LOW_TO_HIGH = "base_price", _("Base Price - Low to High")
+    BASE_PRICE_HIGH_TO_LOW = "-base_price", _("Base Price - High to Low")
+    DISCOUNT_LOW_TO_HIGH = "discount", _("Discount - Low to High")
+    DISCOUNT_HIGH_TO_LOW = "-discount", _("Discount - High to Low")

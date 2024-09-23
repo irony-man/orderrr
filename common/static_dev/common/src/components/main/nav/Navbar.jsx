@@ -16,10 +16,12 @@ import {
   useTheme,
   IconButton,
   Grid,
+  Tooltip,
 } from "@mui/material";
 import DrawerComp from "./Drawer";
 import Logout from "../Profile/Logout";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import GridOnOutlinedIcon from "@mui/icons-material/GridOnOutlined";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -30,6 +32,27 @@ const Navbar = () => {
 
   const links = [
     {
+      text: "Admin",
+      icon: (
+        <>
+          <SupervisorAccountIcon />
+        </>
+      ),
+      link: "/odr-adm/",
+      target: "_blank",
+      condition: user.is_staff,
+    },
+    {
+      text: "Designs",
+      icon: (
+        <>
+          <GridOnOutlinedIcon />
+        </>
+      ),
+      link: "/designs",
+      condition: true,
+    },
+    {
       text: "Messages",
       icon: (
         <>
@@ -37,6 +60,7 @@ const Navbar = () => {
         </>
       ),
       link: "/messages",
+      condition: true,
     },
     {
       text: "Cart",
@@ -47,6 +71,7 @@ const Navbar = () => {
       ),
       link: "/cart",
       badge: user.cart_length,
+      condition: true,
     },
     {
       text: "Wishlist",
@@ -56,6 +81,7 @@ const Navbar = () => {
         </>
       ),
       link: "/wishlist",
+      condition: true,
     },
   ];
 
@@ -94,43 +120,34 @@ const Navbar = () => {
           ) : (
             <>
               <Grid container justifyContent="flex-end">
-                {user.is_staff &&
-                  <Typography
-                    variant="h6"
-                    component={Link}
-                    to="/odr-adm/"
-                    sx={{
-                      color: "text.primary",
-                      ":hover": { color: "text.primary" },
-                      marginRight: "40px",
-                    }}
-                    target="_blank"
-                  >
-                    <Badge color="secondary">
-                      <SupervisorAccountIcon />
-                    </Badge> Admin
-                  </Typography>}
-                {links.map((l) => (
-                  <Typography
-                    variant="h6"
-                    component={Link}
-                    to={l.link}
-                    key={l.link}
-                    sx={{
-                      color: "text.primary",
-                      ":hover": { color: "text.primary" },
-                      marginRight: "40px",
-                    }}
-                    target={l.target}
-                  >
-                    <Badge color="secondary" badgeContent={l.badge}>
-                      {l.icon}
-                    </Badge> {l.text}
-                  </Typography>
-                ))}
+                {links.map((l) => {
+                  if (l.condition)
+                    return (
+                      <IconButton
+                        component={Link}
+                        to={l.link}
+                        key={l.link}
+                        sx={{
+                          color: "text.primary",
+                          ":hover": { color: "text.primary" },
+                          marginRight: "40px",
+                        }}
+                        target={l.target}
+                      >
+                        <Tooltip title={l.text}>
+                          <Badge color="secondary" badgeContent={l.badge}>
+                            {l.icon}
+                          </Badge>
+                        </Tooltip>
+                      </IconButton>
+                    );
+                })}
               </Grid>
               <IconButton onClick={handleOpenUserMenu}>
-                <Avatar src={user.display_picture_url} sx={{ width: 30, height: 30 }} />
+                <Avatar
+                  src={user.display_picture_url}
+                  sx={{ width: 30, height: 30 }}
+                />
               </IconButton>
               <Menu
                 sx={{ mt: "45px" }}

@@ -14,7 +14,12 @@ class DesignFilter(filterset.FilterSet):
 
     class Meta:
         model = Design
-        fields = ("user", "exclude_user_designs", "exclude_design")
+        fields = (
+            "user",
+            "design_type",
+            "exclude_user_designs",
+            "exclude_design",
+        )
 
     def filter_exclude_user_designs(self, queryset, name, value):
         if value and self.request.user.is_authenticated:

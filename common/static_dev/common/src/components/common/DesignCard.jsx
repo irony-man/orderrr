@@ -69,7 +69,10 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
           </Typography>
         </CardContent>
       </Link>
-      <CardActions sx={{ justifyContent: "space-between" }} disableSpacing>
+      <CardActions
+        sx={{ p: 2, justifyContent: "space-between" }}
+        disableSpacing
+      >
         <div className="d-flex align-items-end">
           <Typography variant="h5" noWrap={true} color="text.primary">
             {formatLib.formatCurrency(design.final_price)}

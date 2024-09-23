@@ -16,7 +16,7 @@ from common.models import (
     UserProfile,
     WishList,
 )
-from common.taxonomies import DesignType, serialize
+from common.taxonomies import DesignOrderingType, DesignType, serialize
 
 
 class SerializedRelationField(serializers.Field):
@@ -101,6 +101,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         choices = {
             "country": serialized_countries,
             "design_type": serialize(DesignType),
+            "design_ordering_type": serialize(DesignOrderingType),
         }
         return choices
 

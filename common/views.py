@@ -11,11 +11,12 @@ from django.db.models import Case, F, Q, Sum, Value, When
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
+from django_filters.rest_framework import DjangoFilterBackend
 from loguru import logger
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
+from rest_framework.filters import OrderingFilter, SearchFilter
 
-# from rest_framework.filters import OrderingFilter, SearchFilter
 # from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -123,6 +124,9 @@ class DesignViewSet(ModelViewSet):
     serializer_class = DesignSerializer
     lookup_field = "uid"
     filterset_class = DesignFilter
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    search_fields = ("title", "base_price", "design_type", "user__username")
+    ordering_fields = ("base_price", "discount")
 
     def get_queryset(self):
         return Design.objects.all()

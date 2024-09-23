@@ -199,8 +199,8 @@ const DesignPage = () => {
                             ? "Removing from"
                             : "In the"
                           : wishlistLoading
-                            ? "Adding to"
-                            : "Add to "}{" "}
+                          ? "Adding to"
+                          : "Add to "}{" "}
                         Wishlist
                       </Button>
                     </div>
@@ -226,10 +226,10 @@ const DesignPage = () => {
                         {cartLoading
                           ? "Adding to Cart"
                           : design.cart_uid
-                            ? "Go to Cart"
-                            : design.stock
-                              ? "Add to Cart"
-                              : "Not enough stock"}
+                          ? "Go to Cart"
+                          : design.stock
+                          ? "Add to Cart"
+                          : "Not enough stock"}
                       </Button>
                     </div>
                   </div>
@@ -282,7 +282,14 @@ const DesignPage = () => {
                     )}
                   </div>
                   <div className="col text-end">
-                    <Typography color="text.primary">
+                    <Typography
+                      component={Link}
+                      to={{
+                        pathname: "/designs",
+                        search: `?design_type=${design.design_type}`,
+                      }}
+                      color="text.primary"
+                    >
                       <LocalOfferIcon fontSize="small" /> {design.design_type}
                     </Typography>
                   </div>
