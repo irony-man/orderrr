@@ -7,7 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -39,6 +39,7 @@ dayjs.extend(relativeTime);
 const DesignPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   const [design, setDesign] = useState({});
   const [loading, setLoading] = useState(true);
   const [cartLoading, setCartLoading] = useState(false);
@@ -143,7 +144,6 @@ const DesignPage = () => {
                   container
                   justifyContent="space-between"
                   alignItems="center"
-                  sx={{ mb: 5 }}
                 >
                   <Typography>
                     Design by:
@@ -175,8 +175,8 @@ const DesignPage = () => {
                     readOnly
                   /> */}
                 </Grid>
-                {!design.is_yours ? (
-                  <div className="row g-4">
+                {!design.is_yours && user.uid ? (
+                  <div className="mt-3 row g-4">
                     <div className="col">
                       <Button
                         variant="outlined"
@@ -199,8 +199,8 @@ const DesignPage = () => {
                             ? "Removing from"
                             : "In the"
                           : wishlistLoading
-                          ? "Adding to"
-                          : "Add to "}{" "}
+                            ? "Adding to"
+                            : "Add to "}{" "}
                         Wishlist
                       </Button>
                     </div>
@@ -226,10 +226,10 @@ const DesignPage = () => {
                         {cartLoading
                           ? "Adding to Cart"
                           : design.cart_uid
-                          ? "Go to Cart"
-                          : design.stock
-                          ? "Add to Cart"
-                          : "Not enough stock"}
+                            ? "Go to Cart"
+                            : design.stock
+                              ? "Add to Cart"
+                              : "Not enough stock"}
                       </Button>
                     </div>
                   </div>

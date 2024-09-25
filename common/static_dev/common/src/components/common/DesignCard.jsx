@@ -20,9 +20,12 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import EditIcon from "@mui/icons-material/Edit";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useSelector } from "react-redux";
 dayjs.extend(relativeTime);
 
 const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
+  const user = useSelector(state => state.user);
+
   return (
     <Card>
       <CardHeader
@@ -91,7 +94,15 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
           )}
         </div>
 
-        {!design.is_yours ? (
+        {user.uid ?design.is_yours ? (
+          <IconButton
+            sx={{ color: "text.primary", ":hover": { color: "text.primary" } }}
+            component={Link}
+            to={`/design/${design.uid}/edit`}
+          >
+            <EditIcon />
+          </IconButton>
+        ) : (
           wishlistFunc ? (
             <div>
               <IconButton
@@ -143,15 +154,7 @@ const DesignCard = ({ design = {}, wishlistFunc, cartFunc }) => {
           ) : (
             <></>
           )
-        ) : (
-          <IconButton
-            sx={{ color: "text.primary", ":hover": { color: "text.primary" } }}
-            component={Link}
-            to={`/design/${design.uid}/edit`}
-          >
-            <EditIcon />
-          </IconButton>
-        )}
+        ) :<></>}
       </CardActions>
     </Card>
   );

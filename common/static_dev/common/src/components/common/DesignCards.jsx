@@ -104,7 +104,7 @@ const DesignCards = ({ query = {}, heading = "", fetchFunc }) => {
           loading ? (
             <></>
           ) : (
-            <Typography variant="h5" className="mt-5 text-center">
+            <Typography variant="h5" color="primary" className="mt-5 text-center">
               That&apos;s all we have for you!!
             </Typography>
           )
