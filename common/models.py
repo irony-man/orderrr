@@ -143,14 +143,7 @@ class Design(CreateUpdate):
         return get_thumbnail_url(self.image_url)
 
     def save(self, **kwargs):
-        if self.image:
-            self.image_response = uploader.upload(
-                file=self.image,
-                public_id=str(self.uid),
-                overwrite=True,
-                folder="Orderrr-v2/Designs",
-            )
-        else:
+        if not self.image:
             if public_id := self.image_response.get("public_id", None):
                 uploader.destroy(public_id=public_id)
             self.image_response = dict()

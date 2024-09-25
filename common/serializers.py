@@ -1,5 +1,6 @@
 from copy import copy
 
+from cloudinary import uploader
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django_countries.serializers import CountryFieldMixin
@@ -205,6 +206,28 @@ class DesignSerializer(serializers.ModelSerializer):
                 if wishlist := instance.wishlist_set.filter(user=user).first():
                     return wishlist.uid
         return None
+
+    def create(self, validated_data):
+        instance = Design(**validated_data)
+        if instance.image:
+            instance.image_response = uploader.upload(
+                file=instance.image,
+                public_id=str(instance.uid),
+                overwrite=True,
+                folder="Orderrr-v2/Designs",
+            )
+        instance.save()
+        return instance
+
+    def update(self, instance: Design, validated_data):
+        if "image" in validated_data:
+            instance.image_response = uploader.upload(
+                file=validated_data["image"],
+                public_id=str(instance.uid),
+                overwrite=True,
+                folder="Orderrr-v2/Designs",
+            )
+        return super().update(instance, validated_data)
 
 
 class DesignOrderInstanceSerializer(serializers.ModelSerializer):
