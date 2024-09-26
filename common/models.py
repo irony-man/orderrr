@@ -29,7 +29,6 @@ from django.db.models import (
     CharField,
     DateField,
     DateTimeField,
-    FileField,
     ForeignKey,
     ImageField,
     IntegerField,
@@ -79,30 +78,6 @@ class UserProfile(CreateUpdate):
     @property
     def display_picture_url(self):
         return self.display_picture_response.get("url", None)
-
-    def save(self, **kwargs):
-        if self.display_picture:
-            self.display_picture_response = uploader.upload(
-                file=self.display_picture,
-                transformation=[
-                    {
-                        "width": 200,
-                        "height": 200,
-                        "crop": "fill",
-                        "gravity": "face",
-                    }
-                ],
-                public_id=str(self.uid),
-                overwrite=True,
-                folder="Orderrr-v2/Users",
-            )
-        else:
-            if self.display_picture_response.get(
-                "public_id", None
-            ) != default_image_response().get("public_id", None):
-                uploader.destroy(public_id=f"Orderrr-v2/Users/{str(self.uid)}")
-            self.display_picture_response = default_image_response()
-        super(UserProfile, self).save(**kwargs)
 
     # def request_password_reset(self):
     #     now = timezone.now()

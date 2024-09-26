@@ -7,6 +7,7 @@ from django_countries.serializers import CountryFieldMixin
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from common.model_helpers import default_image_response
 from common.models import (
     Address,
     Card,
@@ -118,6 +119,21 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user = User(**validated_data.pop("user"))
         user.set_password(raw_password=validated_data.pop("raw_password"))
         instance = UserProfile(**validated_data)
+        if instance.display_picture:
+            instance.display_picture_response = uploader.upload(
+                file=instance.display_picture,
+                transformation=[
+                    {
+                        "width": 200,
+                        "height": 200,
+                        "crop": "fill",
+                        "gravity": "face",
+                    }
+                ],
+                public_id=str(instance.uid),
+                overwrite=True,
+                folder="Orderrr-v2/Users",
+            )
         instance.user = user
         user.save()
         instance.save()
@@ -135,6 +151,33 @@ class UserProfileSerializer(serializers.ModelSerializer):
                     raw_password=validated_data.pop("raw_password")
                 )
                 user_instance.save()
+
+            if "display_picture" in validated_data:
+                if validated_data["display_picture"]:
+                    instance.display_picture_response = uploader.upload(
+                        file=instance.display_picture,
+                        transformation=[
+                            {
+                                "width": 200,
+                                "height": 200,
+                                "crop": "fill",
+                                "gravity": "face",
+                            }
+                        ],
+                        public_id=str(instance.uid),
+                        overwrite=True,
+                        folder="Orderrr-v2/Users",
+                    )
+                else:
+                    if instance.display_picture_response.get(
+                        "public_id", None
+                    ) != default_image_response().get("public_id", None):
+                        uploader.destroy(
+                            public_id=f"Orderrr-v2/Users/{str(instance.uid)}"
+                        )
+                    instance.display_picture_response = (
+                        default_image_response()
+                    )
 
         return super(UserProfileSerializer, self).update(
             instance, validated_data
