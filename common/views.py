@@ -118,6 +118,7 @@ class UserViewSet(ModelViewSet):
     def get_object(self):
         if self.request.user.is_authenticated:
             return UserProfile.objects.get(user=self.request.user)
+        return UserProfile(uid=None)
 
 
 class DesignViewSet(ModelViewSet):
