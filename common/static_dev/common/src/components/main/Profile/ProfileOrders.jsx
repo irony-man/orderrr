@@ -75,7 +75,7 @@ const ProfileOrders = () => {
                       <TableCell component={Link} to="/profile/edit/address">
                         {order.address.address_line}
                       </TableCell>
-                      <TableCell component={Link} to="/profile/edit/card">
+                      <TableCell component={Link} to="/profile/edit/billing">
                         {order.card.name} / {order.card.card_number}
                       </TableCell>
                       <TableCell align="right">
