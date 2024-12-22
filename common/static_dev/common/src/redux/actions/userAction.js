@@ -21,8 +21,8 @@ export const userLogged = () => {
         type: ActionTypes.LOADING,
         payload: true,
       });
-      const user = await apis.getUser();
-      dispatch(setUser(user));
+      const [user, choices] = await Promise.all([apis.getUser(), apis.getChoices()]);
+      dispatch(setUser({...user, choices: choices}));
       dispatch({
         type: ActionTypes.LOADING,
         payload: false,

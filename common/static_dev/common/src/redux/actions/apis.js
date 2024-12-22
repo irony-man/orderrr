@@ -6,6 +6,10 @@ export default {
     const url = getUrl("user/me");
     return await getRequest(url);
   },
+  async getChoices() {
+    const url = getUrl("user/choices");
+    return await getRequest(url);
+  },
   async loginUser(formData) {
     const url = getUrl("login");
     return await postRequest(url, formData);

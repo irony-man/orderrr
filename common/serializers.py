@@ -18,7 +18,6 @@ from common.models import (
     UserProfile,
     WishList,
 )
-from common.taxonomies import DesignOrderingType, DesignType, serialize
 
 
 class SerializedRelationField(serializers.Field):
@@ -66,7 +65,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source="user.email")
     is_staff = serializers.BooleanField(source="user.is_staff", read_only=True)
     raw_password = serializers.CharField(write_only=True, required=False)
-    choices = serializers.SerializerMethodField()
     cart_length = serializers.SerializerMethodField()
 
     class Meta:
@@ -83,7 +81,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "created",
             "updated",
             "cart_length",
-            "choices",
             "is_staff",
             "raw_password",
         ]
@@ -91,21 +88,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_cart_length(self, instance):
         return instance.user.cart_set.count()
-
-    def get_choices(self, instance):
-        from django_countries import countries
-
-        serialized_countries = []
-        for country in countries:
-            serialized_countries.append(
-                {"value": country.code.upper(), "name": country.name}
-            )
-        choices = {
-            "country": serialized_countries,
-            "design_type": serialize(DesignType),
-            "design_ordering_type": serialize(DesignOrderingType),
-        }
-        return choices
 
     def validate(self, attrs):
         if "request" in self.context:

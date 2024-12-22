@@ -1,19 +1,6 @@
 # # Standard Library
-# import functools
-# import io
-# import os
-# import uuid
-# from datetime import timedelta
-# from decimal import Decimal
-# from platform import machine
-# from typing import Any, Callable, Collection, Dict, List, Optional
-
 import pgeocode
 from cloudinary import uploader
-
-# import bcrypt
-# import pgeocode
-# from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import (
@@ -21,8 +8,6 @@ from django.core.validators import (
     MinLengthValidator,
     MinValueValidator,
 )
-
-# from django.db import IntegrityError
 from django.db.models import (
     PROTECT,
     BooleanField,

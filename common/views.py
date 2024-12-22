@@ -1,14 +1,5 @@
-# from collections import defaultdict
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.db.models import Case, F, Q, Sum, Value, When
-
-# from django.http import Http404, HttpResponse
-# from django.shortcuts import get_object_or_404
-# from django.utils import timezone
-from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
@@ -16,8 +7,6 @@ from loguru import logger
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.filters import OrderingFilter, SearchFilter
-
-# from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
@@ -25,7 +14,7 @@ from rest_framework.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.viewsets import ModelViewSet
 
 from common.filters import DesignFilter
 from common.models import (
@@ -47,9 +36,9 @@ from common.serializers import (
     LoginSerializer,
     OrderSerializer,
     UserProfileSerializer,
-    UserSerializer,
     WishListSerializer,
 )
+from common.taxonomies import DesignOrderingType, DesignType, serialize
 from orderrr.settings import DISCOUNT_FEE, DISCOUNT_FEE_APPLICABLE_ON
 
 
@@ -118,7 +107,22 @@ class UserViewSet(ModelViewSet):
     def get_object(self):
         if self.request.user.is_authenticated:
             return UserProfile.objects.get(user=self.request.user)
-        return UserProfile(uid=None)
+
+    @action(methods=["GET"], detail=False)
+    def choices(self, request, *args, **kwargs):
+        from django_countries import countries
+
+        serialized_countries = []
+        for country in countries:
+            serialized_countries.append(
+                {"value": country.code.upper(), "name": country.name}
+            )
+        choices = {
+            "country": serialized_countries,
+            "design_type": serialize(DesignType),
+            "design_ordering_type": serialize(DesignOrderingType),
+        }
+        return Response(choices)
 
 
 class DesignViewSet(ModelViewSet):
