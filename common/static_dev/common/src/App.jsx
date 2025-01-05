@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import Paths from "./components/Paths";
+import Paths from "./router";
 import { Box, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser, userLogged } from "./redux/actions/userAction";
+import { removeUser, userLogged } from "@/redux/actions/userAction";
 import AlertMessage from "./utils/AlertMessage";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
