@@ -14,6 +14,10 @@ export default {
     const url = getUrl("login");
     return await postRequest(url, formData);
   },
+  async guestLogin(formData) {
+    const url = getUrl("user/guest");
+    return await postRequest(url, formData);
+  },
   async updateUser({uid, formData}) {
     const url = getUrl(`user/${uid}`);
     return await patchRequest(url, formData);

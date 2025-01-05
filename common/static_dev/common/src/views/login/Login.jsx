@@ -51,12 +51,36 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  const handleGuest = async () => {
+    try {
+      setLoading(true);
+      const user = await apis.guestLogin();
+      dispatch(setUser(user));
+      navigate(urlParams.get("next") ?? "/");
+    } catch (error) {
+      let message = "Error logging in!!";
+      if (error instanceof HttpBadRequestError) {
+        message = error.data.message;
+      }
+      dispatch(
+        alertMessage({
+          message: message,
+          type: "error",
+          open: true,
+        })
+      );
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <title>Login | Orderrr</title>
       <Grid container sx={{ height: "100vh", mt: -10 }}>
-        <Grid item xs={false} sm={4} md={7} className={classes.bgimage} />
-        <Grid item xs={12} sm={8} md={5}>
+        <Grid item xs={false} sm={4} md={7} lg={8} xl={9} className={classes.bgimage} />
+        <Grid item xs={12} sm={8} md={5} lg={4} xl={3}>
           <Box
             sx={{
               mt: 15,
@@ -117,6 +141,16 @@ const Login = () => {
                 {loading ? "Logging In..." : "Login"}
               </Button>
             </Box>
+            <hr className="my-4" />
+            <Button
+              size="large"
+              fullWidth
+              variant="contained"
+              disabled={loading}
+              onClick={handleGuest}
+            >
+              {loading ? "Logging In..." : "Guest Login"}
+            </Button>
             <Typography variant="body1" sx={{ mt: 2, textAlign: "left" }}>
               Not a member?{" "}
               <Link style={{ color: "text.primary" }} to={`/signup/?${urlParams}`}>

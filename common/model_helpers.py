@@ -1,9 +1,12 @@
 # # Standard Library
 import secrets
+import string
+
+systemRandom = secrets.SystemRandom()
 
 
 def random_pin() -> int:
-    return secrets.SystemRandom().randint(100000, 999999)
+    return systemRandom.randint(100000, 999999)
 
 
 def default_image_response() -> dict:
@@ -31,3 +34,22 @@ def get_thumbnail_url(url: str):
     parts = url.split("/")
     parts.insert(parts.index("upload") + 1, "c_fill,h_400,w_400,g_face")
     return "/".join(parts)
+
+
+def generate_username():
+    adjectives = [
+        "Cool",
+        "Fast",
+        "Silly",
+        "Smart",
+        "Brave",
+        "Clever",
+        "Sneaky",
+    ]
+    nouns = ["Tiger", "Panda", "Ninja", "Robot", "Eagle", "Wizard", "Phoenix"]
+    numbers = "".join(systemRandom.choices(string.digits, k=3))
+
+    adjective = systemRandom.choice(adjectives)
+    noun = systemRandom.choice(nouns)
+
+    return f"{adjective}{noun}{numbers}"
