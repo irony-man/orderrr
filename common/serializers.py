@@ -137,7 +137,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             if "display_picture" in validated_data:
                 if validated_data["display_picture"]:
                     instance.display_picture_response = uploader.upload(
-                        file=instance.display_picture,
+                        file=validated_data["display_picture"],
                         transformation=[
                             {
                                 "width": 200,
