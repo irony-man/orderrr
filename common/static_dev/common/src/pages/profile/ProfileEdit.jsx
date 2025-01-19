@@ -4,9 +4,9 @@ import InfoIcon from "@mui/icons-material/Info";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import HomeIcon from "@mui/icons-material/Home";
 import { Link } from "react-router-dom";
-import BasicEdit from "@/views/profile/edit/BasicEdit";
-import AddressEdit from "@/views/profile/edit/AddressEdit";
-import BillingEdit from "@/views/profile/edit/BillingEdit";
+import BasicEdit from "@/pages/profile/edit/BasicEdit";
+import AddressEdit from "@/pages/profile/edit/AddressEdit";
+import BillingEdit from "@/pages/profile/edit/BillingEdit";
 import NotFound from "@/components/NotFound";
 
 const ProfileEdit = () => {
