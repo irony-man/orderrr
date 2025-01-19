@@ -1,6 +1,7 @@
 # # Standard Library
 import pgeocode
 from cloudinary import uploader
+from cryptography.fernet import Fernet
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import (
@@ -24,16 +25,23 @@ from django.db.models import (
     TextField,
 )
 from django_countries.fields import CountryField
+from loguru import logger
 
 from common.abstract_models import CreateUpdate
-from common.custom_fields import PercentField, PositiveFloatField
+from common.custom_fields import EncryptField, PercentField, PositiveFloatField
 from common.model_helpers import (
     default_image_response,
     get_thumbnail_url,
     random_pin,
 )
 from common.taxonomies import DesignType
-from orderrr.settings import DISCOUNT_FEE, DISCOUNT_FEE_APPLICABLE_ON
+from orderrr.settings import (
+    DISCOUNT_FEE,
+    DISCOUNT_FEE_APPLICABLE_ON,
+    FIELD_ENCRYPTION_KEY,
+)
+
+cipher = Fernet(FIELD_ENCRYPTION_KEY)
 
 
 class UserProfile(CreateUpdate):
@@ -173,12 +181,30 @@ class WishList(CreateUpdate):
 class Card(CreateUpdate):
     user = ForeignKey(to=User, on_delete=PROTECT)
     name = CharField(max_length=512)
-    card_number = CharField(max_length=16, validators=[MinLengthValidator(16)])
     name_on_card = CharField(max_length=512)
     card_expiry = DateField()
+    card_number = EncryptField(blank=True, validators=[MinLengthValidator(16)])
+
+    @property
+    def decrypted_card_number(self):
+        try:
+            return (
+                "XXXX-XXXX-XXXX-"
+                + cipher.decrypt(self.card_number.encode("utf-8")).decode(
+                    "utf-8"
+                )[-4:]
+            )
+        except Exception as e:
+            return ""
 
     def __str__(self):
-        return f"{self.card_number} / {self.user}"
+        return f"{self.card_expiry} / {self.user}"
+
+    def clean(self):
+        if len(self.card_number) > 16:
+            raise ValidationError(
+                {"card_number": "Card number can't be more than 16 digits."}
+            )
 
     def save(self, **kwargs):
         self.card_expiry = self.card_expiry.replace(day=1)

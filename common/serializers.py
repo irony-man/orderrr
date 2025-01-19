@@ -298,6 +298,7 @@ class WishListSerializer(serializers.ModelSerializer):
 
 class CardSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    card_number = serializers.CharField(write_only=True)
 
     class Meta:
         model = Card
@@ -310,7 +311,13 @@ class CardSerializer(serializers.ModelSerializer):
             "uid",
             "created",
             "updated",
+            "decrypted_card_number",
         ]
+
+    def validate(self, attrs):
+        instance = Card(**attrs)
+        instance.clean()
+        return super(CardSerializer, self).validate(attrs)
 
 
 class AddressSerializer(CountryFieldMixin, serializers.ModelSerializer):

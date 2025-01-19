@@ -36,7 +36,7 @@ const BillingEdit = () => {
       }
     }
     initiate();
-  }, []);
+  }, [open]);
 
   const handleDelete = async (idx) => {
     try {
@@ -94,7 +94,7 @@ const BillingEdit = () => {
                   >
                     <TableCell>{card.name}</TableCell>
                     <TableCell>{card.name_on_card}</TableCell>
-                    <TableCell>{card.card_number}</TableCell>
+                    <TableCell>{card.decrypted_card_number}</TableCell>
                     <TableCell align="right">{card.card_expiry}</TableCell>
                     <TableCell align="right">
                       <IconButton

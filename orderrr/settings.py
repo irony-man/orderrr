@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # Third Party
     "rest_framework",
     "cloudinary",
-    # "phonenumber_field",
+    "encrypted_model_fields",
     # "django_filters",
     "django_countries",
     # Internal
@@ -235,6 +235,8 @@ BASE_URL = os.getenv("ODR_BASE_URL")
 MEDIAFILES_LOCATION = "media"
 
 REQUESTS_TIMEOUT = 10
+
+FIELD_ENCRYPTION_KEY = os.environ.get("ODR_FIELD_ENCRYPTION_KEY", "")
 
 
 import cloudinary
