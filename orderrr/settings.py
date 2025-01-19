@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # Third Party
     "rest_framework",
     "cloudinary",
-    "encrypted_model_fields",
+    # "encrypted_model_fields",
     # "django_filters",
     "django_countries",
     # Internal
